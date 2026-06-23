@@ -142,6 +142,8 @@
     .vthumb{aspect-ratio:16/10}
     .ms-kpis{grid-template-columns:1fr 1fr!important}
     .ms-idx{grid-template-columns:1fr!important}
+    .ms-item{flex-direction:column;align-items:stretch!important}
+    .ms-item .ms-seg{align-self:flex-start}
   }
   @media(max-width:380px){
     header.top h1{font-size:1.16rem}
@@ -977,14 +979,14 @@
       <g fill="#fff" opacity=".9"><rect x="360" y="78" width="16" height="28" rx="3"/><rect x="384" y="62" width="16" height="44" rx="3"/><rect x="408" y="46" width="16" height="60" rx="3"/><rect x="432" y="30" width="16" height="76" rx="3"/></g>
       <path d="M352 92l24-18 24 10 28-30" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" opacity=".95"/>
     </svg>
-    <div class="blabel">Milestones &amp; KPIs<small>Data-driven, gentle, age-appropriate</small></div>
+    <div class="blabel">Milestones &amp; KPIs<small>A detailed, situational assessment</small></div>
   </div>
-  <p class="sub">A smart-parenting view of where she's thriving and where a little extra support helps &mdash; tracked across the six domains child-development experts use.</p>
+  <p class="sub">A smart-parenting view of where she's thriving and where a little support helps &mdash; rated across the six domains experts use, with items reaching into the 2&ndash;3 year range so her real (often ahead) level shows.</p>
 
-  <div class="card callout"><b>How to read this honestly.</b> These are general signposts based on CDC milestones, <i>not a test</i>. Children vary enormously and still develop perfectly normally. The <b>Cognitive (IQ-style)</b> and <b>Social-emotional (EQ)</b> indicators show developmental <i>progress</i> &mdash; they are <u>not</u> clinical IQ or EQ scores (no valid IQ test exists under age&nbsp;2). Use it to choose what to play next, not to grade her. If a domain stays low over time, or she loses a skill she had, check with your health visitor or GP.</div>
+  <div class="card callout"><b>How to read this honestly.</b> These are signposts based on CDC/ASQ milestones, <i>not a test</i>. Children vary enormously and still develop perfectly normally. The <b>Cognitive (IQ-style)</b> and <b>Social-emotional (EQ)</b> indicators show developmental <i>progress</i> &mdash; they are <u>not</u> clinical IQ or EQ scores (no valid IQ test exists under age&nbsp;2). Use it to choose what to play next and to celebrate her, not to grade her. If a domain stays low over time, or she loses a skill she had, check with your health visitor or GP.</div>
 
-  <h2 class="sec">&#128202; Her development at a glance</h2>
-  <p class="sub">Tick the milestones below and these update live. Each % is how many signposts in that domain she does easily and often.</p>
+  <h2 class="sec">&#128202; Her profile at a glance</h2>
+  <p class="sub">Scores come from the assessment below. Domains you haven't rated yet show &ldquo;&mdash;&rdquo;.</p>
   <div class="ms-kpis" id="msKpis" style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px"></div>
 
   <div class="two" style="margin-top:16px">
@@ -994,14 +996,14 @@
 
   <div class="card" id="msSupport" style="background:linear-gradient(135deg,#e6f5ec,#ece0fb)"></div>
 
-  <h2 class="sec">&#9989; Milestone checklist</h2>
-  <p class="sub">Tick what she does <b>easily and often</b> (not just once). Leave the rest &mdash; many are for older ages and will come. Saved on this device.</p>
+  <h2 class="sec">&#128221; The assessment</h2>
+  <p class="sub">For each one, tap how she is <b>most of the time</b>: <b>Often &amp; easily</b> &middot; <b>Sometimes</b> &middot; <b>Not yet</b>. Items marked <span class="chip">ahead</span> are 2&ndash;3 year skills &mdash; lovely if she's there, no worry if not. Saved on this device. <i>Pre-filled from your interview answers.</i></p>
   <div id="msChecklist"></div>
 
   <div class="card">
     <h3>&#128221; Observations &amp; wins</h3>
-    <p class="mini" style="margin-top:0">Log new skills, words or moments &mdash; a little growth diary on this device.</p>
-    <textarea class="notes" id="msNotes" placeholder="e.g. Stacked 4 blocks today &middot; said 'more' in English &middot; comforted her teddy when it 'fell'..."></textarea>
+    <p class="mini" style="margin-top:0">Log new skills, words or moments &mdash; like "said <i>abar eso</i> as the car left".</p>
+    <textarea class="notes" id="msNotes" placeholder="e.g. Knew uncle was pretend-crying &middot; said 'amra jani na' &middot; stacked 5 blocks..."></textarea>
     <div style="display:flex;align-items:center;gap:12px;margin-top:8px">
       <button class="rotate" style="margin-top:0" id="msNoteBtn">Save observation</button>
       <span class="savedmsg" id="msSaved">Saved &#10003;</span>
@@ -1389,136 +1391,153 @@ renderToday();renderEssentials();renderNotes();renderBuy();
 <script>
 (function(){
   var DOMAINS=[
-    {k:'gross',label:'Gross motor',emoji:'🏃',color:'#3f8f6e',tag:'t-gross',
-     support:'Big movement first &mdash; obstacle courses, dancing, ball games, climbing. See <b>Play Library &rarr; Gross motor</b>.'},
-    {k:'fine',label:'Fine motor',emoji:'✋',color:'#c4623f',tag:'t-fine',
-     support:'Posting boxes, stacking cups, scooping, dough and crayons. See <b>Play Library &rarr; Fine motor</b>.'},
-    {k:'lang',label:'Language',emoji:'🗣️',color:'#a07d1e',tag:'t-lang',
-     support:'Narrate everything, read &amp; sing daily in <b>both</b> languages, and name whatever she points to.'},
     {k:'cog',label:'Cognitive (IQ-style)',emoji:'🧠',color:'#7d57b0',tag:'t-focus',
-     support:'Simple pretend play, inset puzzles, shape sorting and copy-the-chore games build problem-solving.'},
+     support:'Simple pretend play, inset puzzles, shape sorting and copy-the-chore games keep building problem-solving.'},
+    {k:'lang',label:'Language',emoji:'🗣️',color:'#a07d1e',tag:'t-lang',
+     support:'Keep feeding her clear strength &mdash; narrate, read and sing daily in <b>both</b> languages, and expand what she says ("yes, the big red car!").'},
     {k:'eq',label:'Social-emotional (EQ)',emoji:'💞',color:'#b8557c',tag:'',
-     support:'Name her feelings out loud, lots of warm serve-and-return, pretend play, and time near other children.'},
+     support:'Name feelings out loud and model comforting ("teddy is sad &mdash; let\'s pat him"), then praise her caring moments. Lots of warm serve-and-return.'},
+    {k:'gross',label:'Gross motor',emoji:'🏃',color:'#3f8f6e',tag:'t-gross',
+     support:'Big movement &mdash; obstacle courses, dancing, ball games, climbing and stairs. See <b>Play Library</b>.'},
+    {k:'fine',label:'Fine motor',emoji:'✋',color:'#c4623f',tag:'t-fine',
+     support:'Posting boxes, threading, stacking, scooping, dough and crayons build precise little hands.'},
     {k:'self',label:'Self-help',emoji:'🍽️',color:'#3d7aa6',tag:'t-nature',
-     support:'Let her self-feed, offer an open cup, and invite her to help dress and tidy up.'}
+     support:'Let her self-feed with a spoon, offer an open cup, and invite her to help dress, wash hands and tidy up.'}
   ];
+  // id, domain, age label, text, advanced flag
   var MS=[
-    {d:'gross',a:'15m',t:'Walks on her own / takes steps without holding'},
-    {d:'gross',a:'18m',t:'Walks up steps with one hand held; climbs on/off a low sofa'},
-    {d:'gross',a:'18m',t:'Walks fast or runs (stiff legs are normal)'},
-    {d:'gross',a:'24m',t:'Kicks a ball'},
-    {d:'gross',a:'24m',t:'Walks up a few stairs holding on; jumps with both feet'},
-    {d:'fine',a:'15m',t:'Picks up tiny things with thumb &amp; finger (neat pincer)'},
-    {d:'fine',a:'15m',t:'Stacks 2 blocks or cups'},
-    {d:'fine',a:'18m',t:'Scribbles with a crayon'},
-    {d:'fine',a:'18m',t:'Drinks from an open cup (a few spills are fine)'},
-    {d:'fine',a:'24m',t:'Stacks 4+ blocks; turns book pages'},
-    {d:'lang',a:'15m',t:'Says 1–3 words besides "mama/dada"'},
-    {d:'lang',a:'18m',t:'Says about 8–10+ single words'},
-    {d:'lang',a:'18m',t:'Follows a simple 1-step instruction ("give it to me")'},
-    {d:'lang',a:'18m',t:'Points to show you something or to ask for it'},
-    {d:'lang',a:'24m',t:'Puts 2 words together ("more milk", "want up")'},
-    {d:'cog',a:'15m',t:'Tries to use things the right way (cup, phone, brush)'},
-    {d:'cog',a:'18m',t:'Copies you doing chores (sweeping, wiping)'},
-    {d:'cog',a:'18m',t:'Plays simple pretend (feeds a doll, "talks" on a phone)'},
-    {d:'cog',a:'24m',t:'Finds a hidden toy; does a simple inset puzzle'},
-    {d:'cog',a:'24m',t:'Follows a 2-step instruction'},
-    {d:'eq',a:'15m',t:'Looks at your face to see how to react in a new situation'},
-    {d:'eq',a:'15m',t:'Shows affection — hugs, cuddles, kisses'},
-    {d:'eq',a:'18m',t:'Points to share something interesting with you'},
-    {d:'eq',a:'18m',t:'Shows a range of emotions; may have tantrums (normal!)'},
-    {d:'eq',a:'24m',t:'Notices when others are upset; plays alongside other children'},
-    {d:'self',a:'15m',t:'Feeds herself finger foods'},
-    {d:'self',a:'18m',t:'Tries to use a spoon'},
-    {d:'self',a:'18m',t:'Helps with dressing (pushes arm through a sleeve)'},
-    {d:'self',a:'24m',t:'Takes off easy clothing (shoes, socks)'},
-    {d:'self',a:'24m',t:'Copies tooth-brushing / hand-washing'}
+    {id:'cog1',d:'cog',a:'18m',t:'Tries to use things the right way (cup, phone, brush, spoon)'},
+    {id:'cog2',d:'cog',a:'18m',t:'Copies you doing chores (sweeping, wiping)'},
+    {id:'cog3',d:'cog',a:'21m',t:'Pretend play with a little storyline (feeds a doll, puts teddy to sleep, "cooks")'},
+    {id:'cog4',d:'cog',a:'21m',t:'Solves little problems herself (fetches a stool, works out a latch or new toy)'},
+    {id:'cog5',d:'cog',a:'24m',t:'Remembers where things are kept; finds a hidden toy after a delay'},
+    {id:'cog6',d:'cog',a:'24m',t:'Sorts by colour or shape; completes a simple inset puzzle'},
+    {id:'cog7',d:'cog',a:'30m',adv:1,t:'Understands "one" vs "lots"; groups/matches objects'},
+    {id:'cog8',d:'cog',a:'36m',adv:1,t:'Make-believe with roles ("I\'m the doctor"); answers simple "why?"'},
+
+    {id:'lang1',d:'lang',a:'18m',t:'Says 10–20+ clear single words'},
+    {id:'lang2',d:'lang',a:'21m',t:'Puts two words together ("more milk", "dada gelo")'},
+    {id:'lang3',d:'lang',a:'21m',t:'Says the right phrase for the moment (e.g. "abar eso" as someone leaves)'},
+    {id:'lang4',d:'lang',a:'24m',t:'Speaks in short 3-word sentences'},
+    {id:'lang5',d:'lang',a:'24m',t:'Answers simple questions ("where\'s mama?", "what\'s this?")'},
+    {id:'lang6',d:'lang',a:'24m',t:'Follows a 2-step instruction without gestures'},
+    {id:'lang7',d:'lang',a:'30m',adv:1,t:'Uses "I / me / you" and describing words (big, hot, more)'},
+    {id:'lang8',d:'lang',a:'36m',adv:1,t:'Tells a little 2–3 step story about something that happened'},
+
+    {id:'eq1',d:'eq',a:'18m',t:'Shows a range of emotions; checks your face to gauge a situation'},
+    {id:'eq2',d:'eq',a:'18m',t:'Shows affection — hugs, cuddles, kisses'},
+    {id:'eq3',d:'eq',a:'21m',t:'Notices &amp; responds to others\' feelings — even "put-on" ones (pretend-crying)'},
+    {id:'eq4',d:'eq',a:'21m',t:'Recovers from upset with comfort; shows pride when she succeeds'},
+    {id:'eq5',d:'eq',a:'24m',t:'Comforts someone who\'s sad (brings a toy, pats, says a kind word)'},
+    {id:'eq6',d:'eq',a:'24m',t:'Plays alongside other children; takes turns with help'},
+    {id:'eq7',d:'eq',a:'30m',adv:1,t:'Names her own feelings ("I\'m sad/cross/happy")'},
+    {id:'eq8',d:'eq',a:'36m',adv:1,t:'Shows concern for a friend; simple sharing &amp; empathy in play'},
+
+    {id:'gr1',d:'gross',a:'18m',t:'Walks well and runs (stiff legs are fine)'},
+    {id:'gr2',d:'gross',a:'18m',t:'Walks up steps with one hand held; climbs on/off furniture'},
+    {id:'gr3',d:'gross',a:'24m',t:'Kicks a ball; walks up stairs holding on'},
+    {id:'gr4',d:'gross',a:'24m',t:'Jumps with both feet off the ground'},
+    {id:'gr5',d:'gross',a:'30m',adv:1,t:'Walks upstairs alternating feet (with rail); throws overhand'},
+    {id:'gr6',d:'gross',a:'36m',adv:1,t:'Pedals a trike; balances on one foot briefly'},
+
+    {id:'fi1',d:'fine',a:'18m',t:'Neat pincer grip; stacks 2–3 blocks; scribbles'},
+    {id:'fi2',d:'fine',a:'18m',t:'Drinks from an open cup; starting to use a spoon'},
+    {id:'fi3',d:'fine',a:'24m',t:'Stacks 4+ blocks; turns book pages one at a time'},
+    {id:'fi4',d:'fine',a:'24m',t:'Imitates a vertical line or a circular scribble'},
+    {id:'fi5',d:'fine',a:'30m',adv:1,t:'Threads large beads; starts using a fork'},
+    {id:'fi6',d:'fine',a:'36m',adv:1,t:'Copies a circle; snips with child scissors'},
+
+    {id:'se1',d:'self',a:'18m',t:'Feeds herself finger foods; tries a spoon'},
+    {id:'se2',d:'self',a:'18m',t:'Helps with dressing (pushes arm through a sleeve)'},
+    {id:'se3',d:'self',a:'24m',t:'Takes off easy clothing (shoes, socks)'},
+    {id:'se4',d:'self',a:'24m',t:'Copies tooth-brushing / hand-washing'},
+    {id:'se5',d:'self',a:'30m',adv:1,t:'Washes &amp; dries hands with help; shows interest in the potty'},
+    {id:'se6',d:'self',a:'36m',adv:1,t:'Puts on loose clothing; uses the potty with help'}
   ];
-  function load(){try{return JSON.parse(localStorage.getItem('np_ms')||'{}')}catch(e){return {}}}
-  function save(o){try{localStorage.setItem('np_ms',JSON.stringify(o))}catch(e){}}
-  var ticks=load();
-  function pct(k){var a=MS.filter(function(m){return m.d===k});if(!a.length)return 0;var n=a.filter(function(m){return ticks[MS.indexOf(m)]}).length;return Math.round(100*n/a.length);}
+  // prefilled from the interview (2=Often & easily, 1=Sometimes, 0=Not yet)
+  var PREFILL={cog3:2,cog4:2,cog5:2, lang1:2,lang2:2,lang3:2,lang4:2,lang6:2, eq1:2,eq2:1,eq3:2,eq4:2,eq5:1};
+  var LV=['Not yet','Sometimes','Often & easily'];
+
+  function load(){try{return JSON.parse(localStorage.getItem('np_ms2')||'null')}catch(e){return null}}
+  function save(o){try{localStorage.setItem('np_ms2',JSON.stringify(o))}catch(e){}}
+  var R=load();
+  if(R===null){ R={}; for(var p in PREFILL)R[p]=PREFILL[p]; save(R); }
+
+  function dItems(k){return MS.filter(function(m){return m.d===k});}
+  function pct(k){var a=dItems(k).filter(function(m){return R[m.id]!=null});if(!a.length)return null;
+    var sum=a.reduce(function(t,m){return t+R[m.id]},0);return Math.round(100*sum/(2*a.length));}
   function dom(k){for(var i=0;i<DOMAINS.length;i++)if(DOMAINS[i].k===k)return DOMAINS[i];}
 
   function renderKpis(){
-    var el=document.getElementById('msKpis');
-    el.innerHTML=DOMAINS.map(function(D){
-      var p=pct(D.k);
+    document.getElementById('msKpis').innerHTML=DOMAINS.map(function(D){
+      var p=pct(D.k); var disp=(p==null?'—':p+'%'); var w=(p==null?0:p);
       return '<div class="card" style="margin:0;padding:14px">'
         +'<div style="font-size:1.6rem;line-height:1">'+D.emoji+'</div>'
         +'<div style="font-weight:700;font-size:.92rem;margin:4px 0 2px">'+D.label+'</div>'
-        +'<div style="font-size:1.5rem;font-weight:800;color:'+D.color+'">'+p+'%</div>'
-        +'<div style="height:8px;border-radius:99px;background:#eee;overflow:hidden;margin-top:6px"><div style="height:100%;width:'+p+'%;background:'+D.color+';border-radius:99px;transition:.4s"></div></div>'
+        +'<div style="font-size:1.5rem;font-weight:800;color:'+(p==null?'#bbb':D.color)+'">'+disp+'</div>'
+        +'<div style="height:8px;border-radius:99px;background:#eee;overflow:hidden;margin-top:6px"><div style="height:100%;width:'+w+'%;background:'+D.color+';border-radius:99px;transition:.4s"></div></div>'
         +'</div>';
     }).join('');
   }
   function renderIdx(){
-    var all=DOMAINS.map(function(D){return pct(D.k)});
-    var overall=Math.round(all.reduce(function(a,b){return a+b},0)/all.length);
-    var cog=pct('cog'), eq=pct('eq');
-    function badge(label,val,color,sub){
-      return '<div style="text-align:center;background:#fff;border:1px solid var(--line);border-radius:16px;padding:12px 8px">'
-        +'<div style="font-size:1.9rem;font-weight:800;color:'+color+';line-height:1">'+val+'%</div>'
-        +'<div style="font-weight:700;font-size:.86rem;margin-top:2px">'+label+'</div>'
-        +'<div class="mini" style="margin-top:2px">'+sub+'</div></div>';
-    }
+    function avg(keys){var v=keys.map(pct).filter(function(x){return x!=null});return v.length?Math.round(v.reduce(function(a,b){return a+b},0)/v.length):null;}
+    function badge(label,val,color,sub){var d=(val==null?'—':val+'%');return '<div style="text-align:center;background:#fff;border:1px solid var(--line);border-radius:16px;padding:12px 8px">'
+      +'<div style="font-size:1.9rem;font-weight:800;color:'+(val==null?'#bbb':color)+';line-height:1">'+d+'</div>'
+      +'<div style="font-weight:700;font-size:.86rem;margin-top:2px">'+label+'</div><div class="mini" style="margin-top:2px">'+sub+'</div></div>';}
     document.getElementById('msIdx').innerHTML=
-      badge('Overall index',overall,'#b8557c','all six domains')
-      +badge('Cognitive (IQ-style)',cog,'#7d57b0','problem-solving')
-      +badge('Emotional (EQ)',eq,'#b8557c','social-emotional')
-      +badge('Language',pct('lang'),'#a07d1e','her known strength');
+      badge('Overall index',avg(['cog','lang','eq','gross','fine','self']),'#b8557c','rated domains')
+      +badge('Cognitive (IQ-style)',pct('cog'),'#7d57b0','problem-solving')
+      +badge('Emotional (EQ)',pct('eq'),'#b8557c','social-emotional')
+      +badge('Language',pct('lang'),'#a07d1e','her strength');
   }
   function renderRadar(){
-    var cx=160,cy=145,R=105,N=DOMAINS.length;
-    function pt(i,frac){var ang=-Math.PI/2+i*2*Math.PI/N;return [cx+R*frac*Math.cos(ang),cy+R*frac*Math.sin(ang)];}
-    var rings='';
-    [0.25,0.5,0.75,1].forEach(function(f){
-      var pts=[];for(var i=0;i<N;i++){var p=pt(i,f);pts.push(p[0].toFixed(1)+','+p[1].toFixed(1));}
-      rings+='<polygon points="'+pts.join(' ')+'" fill="none" stroke="#e9d7e3" stroke-width="1"/>';
-    });
-    var axes='',labels='';
-    for(var i=0;i<N;i++){
-      var e=pt(i,1);axes+='<line x1="'+cx+'" y1="'+cy+'" x2="'+e[0].toFixed(1)+'" y2="'+e[1].toFixed(1)+'" stroke="#e9d7e3" stroke-width="1"/>';
-      var lp=pt(i,1.18);var anchor=Math.abs(lp[0]-cx)<8?'middle':(lp[0]<cx?'end':'start');
-      labels+='<text x="'+lp[0].toFixed(1)+'" y="'+(lp[1]+3).toFixed(1)+'" font-size="10" font-weight="700" fill="'+DOMAINS[i].color+'" text-anchor="'+anchor+'">'+DOMAINS[i].emoji+'</text>';
-    }
-    var dpts=[];for(i=0;i<N;i++){var p=pt(i,Math.max(.02,pct(DOMAINS[i].k)/100));dpts.push(p[0].toFixed(1)+','+p[1].toFixed(1));}
-    var dots='';for(i=0;i<N;i++){var p=pt(i,Math.max(.02,pct(DOMAINS[i].k)/100));dots+='<circle cx="'+p[0].toFixed(1)+'" cy="'+p[1].toFixed(1)+'" r="3" fill="#b8557c"/>';}
-    document.getElementById('msRadar').innerHTML='<svg viewBox="0 0 320 300" width="100%" style="max-width:340px">'+rings+axes
-      +'<polygon points="'+dpts.join(' ')+'" fill="rgba(184,85,124,.28)" stroke="#b8557c" stroke-width="2"/>'+dots+labels+'</svg>';
+    var cx=160,cy=145,R0=105,N=DOMAINS.length;
+    function pt(i,f){var ang=-Math.PI/2+i*2*Math.PI/N;return [cx+R0*f*Math.cos(ang),cy+R0*f*Math.sin(ang)];}
+    var rings='';[0.25,0.5,0.75,1].forEach(function(f){var p=[];for(var i=0;i<N;i++){var q=pt(i,f);p.push(q[0].toFixed(1)+','+q[1].toFixed(1));}rings+='<polygon points="'+p.join(' ')+'" fill="none" stroke="#e9d7e3" stroke-width="1"/>';});
+    var axes='',labels='';for(var i=0;i<N;i++){var e=pt(i,1);axes+='<line x1="'+cx+'" y1="'+cy+'" x2="'+e[0].toFixed(1)+'" y2="'+e[1].toFixed(1)+'" stroke="#e9d7e3" stroke-width="1"/>';var lp=pt(i,1.18);var an=Math.abs(lp[0]-cx)<8?'middle':(lp[0]<cx?'end':'start');labels+='<text x="'+lp[0].toFixed(1)+'" y="'+(lp[1]+3).toFixed(1)+'" font-size="11" text-anchor="'+an+'">'+DOMAINS[i].emoji+'</text>';}
+    var dp=[];for(i=0;i<N;i++){var v=pct(DOMAINS[i].k);var q=pt(i,Math.max(.02,(v==null?0:v)/100));dp.push(q[0].toFixed(1)+','+q[1].toFixed(1));}
+    var dots='';for(i=0;i<N;i++){var v2=pct(DOMAINS[i].k);var q2=pt(i,Math.max(.02,(v2==null?0:v2)/100));dots+='<circle cx="'+q2[0].toFixed(1)+'" cy="'+q2[1].toFixed(1)+'" r="3" fill="#b8557c"/>';}
+    document.getElementById('msRadar').innerHTML='<svg viewBox="0 0 320 300" width="100%" style="max-width:340px">'+rings+axes+'<polygon points="'+dp.join(' ')+'" fill="rgba(184,85,124,.28)" stroke="#b8557c" stroke-width="2"/>'+dots+labels+'</svg>';
   }
   function renderSupport(){
-    var sorted=DOMAINS.slice().sort(function(a,b){return pct(a.k)-pct(b.k)});
-    var low=sorted[0];
-    document.getElementById('msSupport').innerHTML=
-      '<h3 style="margin-top:0">&#127919; What to support next</h3>'
-      +'<p class="mini" style="margin-top:0">Her lowest area right now is <b style="color:'+low.color+'">'+low.label+' ('+pct(low.k)+'%)</b> &mdash; a gentle place to add a little play. Remember: it just means "not yet", and ages vary widely.</p>'
+    var rated=DOMAINS.filter(function(D){return pct(D.k)!=null});
+    if(!rated.length){document.getElementById('msSupport').innerHTML='<h3 style="margin-top:0">&#127919; What to support next</h3><p class="mini" style="margin-top:0">Rate a few items below and a tailored suggestion appears here.</p>';return;}
+    var low=rated.slice().sort(function(a,b){return pct(a.k)-pct(b.k)})[0];
+    var high=rated.slice().sort(function(a,b){return pct(b.k)-pct(a.k)})[0];
+    document.getElementById('msSupport').innerHTML='<h3 style="margin-top:0">&#127919; What to support next</h3>'
+      +'<p class="mini" style="margin-top:0">Shining in <b style="color:'+high.color+'">'+high.label+' ('+pct(high.k)+'%)</b> &mdash; keep feeding it. Gentlest place to add play is <b style="color:'+low.color+'">'+low.label+' ('+pct(low.k)+'%)</b> &mdash; just "not yet", and ages vary widely.</p>'
       +'<p style="margin:8px 0 0;font-size:.95rem">'+low.emoji+' '+low.support+'</p>';
   }
-  // checklist
-  var box=document.getElementById('msChecklist');
   function renderChecklist(){
+    var box=document.getElementById('msChecklist');
     box.innerHTML=DOMAINS.map(function(D){
-      var rows=MS.map(function(m){var idx=MS.indexOf(m);return m.d!==D.k?'':(
-        '<label class="check'+(ticks[idx]?' done':'')+'"><input type="checkbox" data-i="'+idx+'"'+(ticks[idx]?' checked':'')+'>'
-        +'<span>'+m.t+' <span class="chip">'+m.a+'</span></span></label>');}).join('');
-      return '<div class="card"><h3 style="margin-top:0"><span class="tag '+(D.tag||'')+'"'+(D.tag?'':' style="background:#fbe0ec;color:#b8557c"')+'>'+D.emoji+' '+D.label+'</span></h3>'+rows+'</div>';
+      var rows=dItems(D.k).map(function(m){
+        var cur=R[m.id];
+        var segs=[0,1,2].map(function(v){
+          var on=(cur===v);
+          var bg=on?(v===2?D.color:(v===1?'#e6a23c':'#bbb')):'#fff';
+          var col=on?'#fff':'#777';
+          return '<button data-id="'+m.id+'" data-v="'+v+'" style="border:1px solid var(--line);background:'+bg+';color:'+col+';padding:6px 10px;font:inherit;font-size:.76rem;font-weight:700;cursor:pointer;white-space:nowrap">'+LV[v]+'</button>';
+        }).join('');
+        return '<div class="ms-item" style="display:flex;justify-content:space-between;align-items:center;gap:12px;padding:9px 0;border-bottom:1px dashed var(--line)">'
+          +'<span style="flex:1;font-size:.92rem">'+m.t+(m.adv?' <span class="chip">ahead</span>':'')+' <span class="chip">'+m.a+'</span></span>'
+          +'<span class="ms-seg" style="display:inline-flex;border-radius:10px;overflow:hidden;border:1px solid var(--line);flex:0 0 auto">'+segs+'</span></div>';
+      }).join('');
+      return '<div class="card"><h3 style="margin-top:0"><span class="tag '+(D.tag||'')+'"'+(D.tag?'':' style="background:#fbe0ec;color:#b8557c"')+'>'+D.emoji+' '+D.label+'</span> <span class="mini" id="ms-sc-'+D.k+'"></span></h3>'+rows+'</div>';
     }).join('');
-    box.querySelectorAll('input[type=checkbox]').forEach(function(c){
-      c.addEventListener('change',function(){
-        var i=this.getAttribute('data-i');
-        if(this.checked)ticks[i]=1;else delete ticks[i];
-        save(ticks);this.closest('.check').classList.toggle('done',this.checked);
-        renderKpis();renderIdx();renderRadar();renderSupport();
+    box.querySelectorAll('button[data-id]').forEach(function(b){
+      b.addEventListener('click',function(){
+        var id=this.getAttribute('data-id'), v=+this.getAttribute('data-v');
+        if(R[id]===v){delete R[id];}else{R[id]=v;}
+        save(R); renderChecklist(); renderKpis(); renderIdx(); renderRadar(); renderSupport();
       });
     });
+    DOMAINS.forEach(function(D){var el=document.getElementById('ms-sc-'+D.k);if(el){var p=pct(D.k);el.textContent=(p==null?'':p+'%');el.style.color=D.color;}});
   }
-  // notes
   function renderNotes(){
     var log=[];try{log=JSON.parse(localStorage.getItem('np_ms_notes')||'[]')}catch(e){}
     document.getElementById('msNoteLog').innerHTML=log.slice().reverse().map(function(n){
-      return '<div class="callout" style="margin:8px 0"><span class="mini" style="color:var(--sage-dark);font-weight:700">'+n.d+'</span><br>'+n.t+'</div>';
-    }).join('');
+      return '<div class="callout" style="margin:8px 0"><span class="mini" style="color:var(--sage-dark);font-weight:700">'+n.d+'</span><br>'+n.t+'</div>';}).join('');
   }
   document.getElementById('msNoteBtn').addEventListener('click',function(){
     var t=(document.getElementById('msNotes').value||'').trim();if(!t)return;
@@ -1526,8 +1545,7 @@ renderToday();renderEssentials();renderNotes();renderBuy();
     log.push({t:t.replace(/</g,'&lt;'),d:new Date().toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})});
     try{localStorage.setItem('np_ms_notes',JSON.stringify(log))}catch(e){}
     document.getElementById('msNotes').value='';
-    var m=document.getElementById('msSaved');m.classList.add('show');setTimeout(function(){m.classList.remove('show')},1600);
-    renderNotes();
+    var m=document.getElementById('msSaved');m.classList.add('show');setTimeout(function(){m.classList.remove('show')},1600);renderNotes();
   });
   renderKpis();renderIdx();renderRadar();renderSupport();renderChecklist();renderNotes();
 })();
