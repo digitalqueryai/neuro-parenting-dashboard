@@ -115,7 +115,38 @@
   .tabbanner .blabel{position:absolute;left:24px;top:50%;transform:translateY(-50%);z-index:2;color:#fff;font-weight:800;font-size:1.65rem;text-shadow:0 2px 10px rgba(110,55,85,.5);letter-spacing:.3px}
   .tabbanner .blabel small{display:block;font-size:.85rem;font-weight:600;opacity:.98;margin-top:3px;text-shadow:0 1px 6px rgba(110,55,85,.5)}
   @media(max-width:560px){.tabbanner{height:104px}.tabbanner .blabel{font-size:1.3rem}}
-  @media(max-width:700px){.heroart{height:62px}header.top{padding-bottom:80px}}
+  @media(max-width:700px){.heroart{height:62px}}
+  /* ---- mobile / phone layout ---- */
+  @media(max-width:600px){
+    header.top{padding:18px 14px 14px;border-radius:0 0 20px 20px}
+    header.top h1{font-size:1.28rem;line-height:1.2}
+    header.top p{font-size:.82rem;line-height:1.35}
+    .pillbar{padding:10px 12px 0;gap:6px}
+    .navtab{padding:7px 11px;font-size:.8rem}
+    main{padding:14px}
+    h2.sec{font-size:1.14rem}
+    .sub{font-size:.88rem}
+    .card{padding:15px 14px;border-radius:18px;overflow-x:auto}
+    .todayhero{padding:16px 15px;flex-direction:column;align-items:stretch;overflow:visible}
+    .todayhero>div:last-child{text-align:left!important}
+    .todayhero .date{font-size:1.15rem}
+    button.rotate{width:100%;text-align:center}
+    .ctrlrow{gap:8px}
+    .ctrlrow .lab{width:100%;margin-bottom:-2px}
+    .seg{flex-wrap:wrap}
+    select.tune{flex:1;min-width:0}
+    /* wide nutrition tables scroll inside their card instead of breaking the page */
+    table.food{min-width:430px}
+    .tabbanner .blabel{font-size:1.15rem;left:16px}
+    .rhythm .time{flex:0 0 76px;font-size:.84rem}
+    .vthumb{aspect-ratio:16/10}
+    .buylinks{margin-left:46px}
+  }
+  @media(max-width:380px){
+    header.top h1{font-size:1.16rem}
+    .navtab{padding:6px 9px;font-size:.76rem}
+    table.food{min-width:360px;font-size:.82rem}
+  }
   /* ---- animations ---- */
   @keyframes riseIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
   @keyframes popIn{0%{transform:scale(.8);opacity:0}60%{transform:scale(1.06)}100%{transform:scale(1);opacity:1}}
