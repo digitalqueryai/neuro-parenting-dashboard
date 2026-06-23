@@ -1457,6 +1457,16 @@ renderToday();renderEssentials();renderNotes();renderBuy();
   // prefilled from the interview (2=Often & easily, 1=Sometimes, 0=Not yet)
   var PREFILL={cog3:2,cog4:2,cog5:2, lang1:2,lang2:2,lang3:2,lang4:2,lang6:2, eq1:2,eq2:1,eq3:2,eq4:2,eq5:1};
   var LV=['Not yet','Sometimes','Often & easily'];
+  var PLAYBANK={
+    cog:['Hide a toy under one of two cups and let her find it','A 3-4 piece chunky inset puzzle','Sort blocks or socks by colour','A pretend sequence: feed teddy, then "put it to sleep"','Copy-the-chore game (wipe, sweep, stir)'],
+    lang:['Read a book and pause for her to fill in the last word','Name everything on a short walk - in Bengali and English','Sing an action song and leave gaps for her','Look at family photos and talk about who and what','Expand what she says: she says "car", you say "yes, big red car!"'],
+    eq:['Name feelings as they happen ("you are cross", "that is exciting")','Model comforting: "teddy is sad - let us pat him"','Mirror game: copy each other happy / sad / surprised faces','Praise her caring moments out loud when she helps or hugs','Read a simple feelings book together'],
+    gross:['Cushion-and-tape-line obstacle course','Dance-and-freeze to music','Kick and chase a soft ball','Climb the stairs together (you right behind her)','Carry "heavy" things across the room'],
+    fine:['Post coins / lids into a slot cut in a box','Thread large beads or pasta on a lace','Stack 4+ blocks, then knock them down','Scoop and pour dry rice or water between cups','Big crayon scribbles on paper'],
+    self:['Let her self-feed with a spoon (mess is fine)','Open-cup sips at meals','Invite her to push her arms through sleeves','Copy hand-washing together','Let her help tidy toys into a basket']
+  };
+  function pickN(arr,n,seed){var a=(arr||[]).slice(),out=[],x=seed||1;while(out.length<n&&a.length){x=(x*9301+49297)%233280;var i=Math.floor(x/233280*a.length)%a.length;out.push(a.splice(i,1)[0]);}return out;}
+  function dayseed(){var d=new Date();return d.getFullYear()*1000+(d.getMonth()+1)*40+d.getDate();}
 
   function load(){try{return JSON.parse(localStorage.getItem('np_ms2')||'null')}catch(e){return null}}
   function save(o){try{localStorage.setItem('np_ms2',JSON.stringify(o))}catch(e){}}
@@ -1499,14 +1509,55 @@ renderToday();renderEssentials();renderNotes();renderBuy();
     var dots='';for(i=0;i<N;i++){var v2=pct(DOMAINS[i].k);var q2=pt(i,Math.max(.02,(v2==null?0:v2)/100));dots+='<circle cx="'+q2[0].toFixed(1)+'" cy="'+q2[1].toFixed(1)+'" r="3" fill="#b8557c"/>';}
     document.getElementById('msRadar').innerHTML='<svg viewBox="0 0 320 300" width="100%" style="max-width:340px">'+rings+axes+'<polygon points="'+dp.join(' ')+'" fill="rgba(184,85,124,.28)" stroke="#b8557c" stroke-width="2"/>'+dots+labels+'</svg>';
   }
-  function renderSupport(){
+  function injectTodayPlan(plan){
+    var today=document.getElementById('today'); if(!today)return;
+    var card=document.getElementById('todayMsPlan');
+    if(!card){card=document.createElement('div');card.className='card';card.id='todayMsPlan';card.style.background='linear-gradient(135deg,#ece0fb,#e6f5ec)';
+      var hero=today.querySelector('.todayhero');
+      if(hero&&hero.nextSibling){today.insertBefore(card,hero.nextSibling);}else{today.insertBefore(card,today.firstChild);}}
+    if(!plan){card.innerHTML='<h3 style="margin-top:0">&#10024; Personalised focus</h3><p class="mini" style="margin-top:0">Fill in her <b>Milestones</b> assessment and today\'s plan tailors itself to her.</p>';return;}
+    card.innerHTML='<h3 style="margin-top:0">&#10024; Personalised focus &mdash; from her milestones</h3>'
+      +'<p style="margin:4px 0 0;font-size:.95rem">'+plan.strong.emoji+' Stretch her strength <b style="color:'+plan.strong.color+'">'+plan.strong.label+'</b>: '+plan.strongIdea+'</p>'
+      +'<p style="margin:6px 0 0;font-size:.95rem">'+plan.edge.emoji+' Gently grow <b style="color:'+plan.edge.color+'">'+plan.edge.label+'</b>: '+plan.edgeIdeas[0]+'</p>';
+  }
+  function renderPlan(){
     var rated=DOMAINS.filter(function(D){return pct(D.k)!=null});
-    if(!rated.length){document.getElementById('msSupport').innerHTML='<h3 style="margin-top:0">&#127919; What to support next</h3><p class="mini" style="margin-top:0">Rate a few items below and a tailored suggestion appears here.</p>';return;}
-    var low=rated.slice().sort(function(a,b){return pct(a.k)-pct(b.k)})[0];
-    var high=rated.slice().sort(function(a,b){return pct(b.k)-pct(a.k)})[0];
-    document.getElementById('msSupport').innerHTML='<h3 style="margin-top:0">&#127919; What to support next</h3>'
-      +'<p class="mini" style="margin-top:0">Shining in <b style="color:'+high.color+'">'+high.label+' ('+pct(high.k)+'%)</b> &mdash; keep feeding it. Gentlest place to add play is <b style="color:'+low.color+'">'+low.label+' ('+pct(low.k)+'%)</b> &mdash; just "not yet", and ages vary widely.</p>'
-      +'<p style="margin:8px 0 0;font-size:.95rem">'+low.emoji+' '+low.support+'</p>';
+    var el=document.getElementById('msSupport');
+    if(!rated.length){el.innerHTML='<h3 style="margin-top:0">&#10024; Her personalised plan</h3><p class="mini" style="margin-top:0">Rate a few items in the assessment below and her tailored plan appears here &mdash; and on the <b>Today</b> tab.</p>';injectTodayPlan(null);return;}
+    var sorted=rated.slice().sort(function(a,b){return pct(a.k)-pct(b.k)});
+    var edge=sorted[0], strong=sorted[sorted.length-1];
+    var seed=dayseed();
+    var edgeIdeas=pickN(PLAYBANK[edge.k],2,seed);
+    var strongIdea=pickN(PLAYBANK[strong.k],1,seed+7)[0];
+    el.innerHTML='<h3 style="margin-top:0">&#10024; Her personalised plan</h3>'
+      +'<p class="mini" style="margin-top:0">Built live from her scores &mdash; it supports her growing edge <i>and</i> stretches her strengths. It also shows on the <b>Today</b> tab and refreshes each day.</p>'
+      +'<div style="margin-top:8px"><b style="color:'+strong.color+'">'+strong.emoji+' Stretch her strength: '+strong.label+' ('+pct(strong.k)+'%)</b><div style="font-size:.95rem;margin-top:3px">&bull; '+strongIdea+'</div></div>'
+      +'<div style="margin-top:10px"><b style="color:'+edge.color+'">'+edge.emoji+' Gently grow: '+edge.label+' ('+pct(edge.k)+'%)</b>'+edgeIdeas.map(function(x){return '<div style="font-size:.95rem;margin-top:3px">&bull; '+x+'</div>';}).join('')+'</div>'
+      +'<div class="callout" style="margin:12px 0 0">&#127869;&#65039; Brain food to match: keep iron (dal, egg, spinach), omega-3 (oily fish) and whole milk regular &mdash; they fuel the language &amp; thinking she\'s racing ahead in. See the <b>Food Guide</b>.</div>';
+    injectTodayPlan({edge:edge,strong:strong,edgeIdeas:edgeIdeas,strongIdea:strongIdea});
+  }
+  function renderSync(){
+    var sec=document.getElementById('milestones'); if(!sec||document.getElementById('msSyncCard'))return;
+    var card=document.createElement('div');card.className='card';card.id='msSyncCard';
+    card.innerHTML='<h3 style="margin-top:0">&#128260; Sync across your devices</h3>'
+      +'<p class="mini" style="margin-top:0">Her scores &amp; notes are saved on <i>this</i> device only. To copy them to your phone or another browser: tap <b>Copy my data</b>, then paste the code into <b>Restore</b> on the other device. (Live auto cloud-sync is being set up separately &mdash; ask in chat.)</p>'
+      +'<div style="display:flex;gap:8px;flex-wrap:wrap;margin:8px 0"><button class="rotate" id="msCopyBtn" style="margin:0">Copy my data</button><button class="rotate" id="msRestoreBtn" style="margin:0;background:linear-gradient(135deg,#7db4e6,#8fd3a6)">Restore from code</button></div>'
+      +'<textarea class="notes" id="msSyncBox" placeholder="Your data code appears here when you tap Copy. To restore on another device, paste a code here and tap Restore." style="min-height:60px"></textarea>'
+      +'<div class="savedmsg" id="msSyncMsg"></div>';
+    sec.appendChild(card);
+    document.getElementById('msCopyBtn').addEventListener('click',function(){
+      var o={};['np_ms2','np_ms_notes','np_settings','np_notes','np_buy','np_ess'].forEach(function(k){var v=localStorage.getItem(k);if(v!=null)o[k]=v;});
+      var code=btoa(unescape(encodeURIComponent(JSON.stringify(o))));
+      var box=document.getElementById('msSyncBox');box.value=code;box.focus();box.select();
+      try{navigator.clipboard.writeText(code);}catch(e){}
+      var m=document.getElementById('msSyncMsg');m.textContent='Copied! Paste it into Restore on your other device.';m.classList.add('show');setTimeout(function(){m.classList.remove('show')},2600);
+    });
+    document.getElementById('msRestoreBtn').addEventListener('click',function(){
+      var code=(document.getElementById('msSyncBox').value||'').trim();if(!code)return;var m=document.getElementById('msSyncMsg');
+      try{var o=JSON.parse(decodeURIComponent(escape(atob(code))));for(var k in o){localStorage.setItem(k,o[k]);}
+        m.textContent='Restored! Reloading...';m.classList.add('show');setTimeout(function(){location.reload();},800);
+      }catch(e){m.textContent='That code did not paste fully - copy it again and retry.';m.classList.add('show');}
+    });
   }
   function renderChecklist(){
     var box=document.getElementById('msChecklist');
@@ -1529,7 +1580,7 @@ renderToday();renderEssentials();renderNotes();renderBuy();
       b.addEventListener('click',function(){
         var id=this.getAttribute('data-id'), v=+this.getAttribute('data-v');
         if(R[id]===v){delete R[id];}else{R[id]=v;}
-        save(R); renderChecklist(); renderKpis(); renderIdx(); renderRadar(); renderSupport();
+        save(R); renderChecklist(); renderKpis(); renderIdx(); renderRadar(); renderPlan();
       });
     });
     DOMAINS.forEach(function(D){var el=document.getElementById('ms-sc-'+D.k);if(el){var p=pct(D.k);el.textContent=(p==null?'':p+'%');el.style.color=D.color;}});
@@ -1547,7 +1598,7 @@ renderToday();renderEssentials();renderNotes();renderBuy();
     document.getElementById('msNotes').value='';
     var m=document.getElementById('msSaved');m.classList.add('show');setTimeout(function(){m.classList.remove('show')},1600);renderNotes();
   });
-  renderKpis();renderIdx();renderRadar();renderSupport();renderChecklist();renderNotes();
+  renderKpis();renderIdx();renderRadar();renderChecklist();renderNotes();renderPlan();renderSync();
 })();
 </script>
 </body></html>
