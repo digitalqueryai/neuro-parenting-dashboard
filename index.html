@@ -996,9 +996,9 @@
 
   <div class="card" id="msSupport" style="background:linear-gradient(135deg,#e6f5ec,#ece0fb)"></div>
 
-  <h2 class="sec">&#128221; The assessment</h2>
-  <p class="sub">For each one, tap how she is <b>most of the time</b>: <b>Often &amp; easily</b> &middot; <b>Sometimes</b> &middot; <b>Not yet</b>. Items marked <span class="chip">ahead</span> are 2&ndash;3 year skills &mdash; lovely if she's there, no worry if not. Saved on this device. <i>Pre-filled from your interview answers.</i></p>
-  <div id="msChecklist"></div>
+  <h2 class="sec">&#128221; Guided assessment</h2>
+  <p class="sub">Tap <b>Start</b> and answer a quick set of questions one at a time &mdash; her results above update as you go. No long list to scroll. Items marked <span class="chip">ahead</span> are 2&ndash;3 year skills. Saved on this device. <i>Pre-filled from your interview.</i></p>
+  <div id="msQuiz" class="card"></div>
 
   <div class="card">
     <h3>&#128221; Observations &amp; wins</h3>
@@ -1559,31 +1559,40 @@ renderToday();renderEssentials();renderNotes();renderBuy();
       }catch(e){m.textContent='That code did not paste fully - copy it again and retry.';m.classList.add('show');}
     });
   }
-  function renderChecklist(){
-    var box=document.getElementById('msChecklist');
-    box.innerHTML=DOMAINS.map(function(D){
-      var rows=dItems(D.k).map(function(m){
-        var cur=R[m.id];
-        var segs=[0,1,2].map(function(v){
-          var on=(cur===v);
-          var bg=on?(v===2?D.color:(v===1?'#e6a23c':'#bbb')):'#fff';
-          var col=on?'#fff':'#777';
-          return '<button data-id="'+m.id+'" data-v="'+v+'" style="border:1px solid var(--line);background:'+bg+';color:'+col+';padding:6px 10px;font:inherit;font-size:.76rem;font-weight:700;cursor:pointer;white-space:nowrap">'+LV[v]+'</button>';
-        }).join('');
-        return '<div class="ms-item" style="display:flex;justify-content:space-between;align-items:center;gap:12px;padding:9px 0;border-bottom:1px dashed var(--line)">'
-          +'<span style="flex:1;font-size:.92rem">'+m.t+(m.adv?' <span class="chip">ahead</span>':'')+' <span class="chip">'+m.a+'</span></span>'
-          +'<span class="ms-seg" style="display:inline-flex;border-radius:10px;overflow:hidden;border:1px solid var(--line);flex:0 0 auto">'+segs+'</span></div>';
-      }).join('');
-      return '<div class="card"><h3 style="margin-top:0"><span class="tag '+(D.tag||'')+'"'+(D.tag?'':' style="background:#fbe0ec;color:#b8557c"')+'>'+D.emoji+' '+D.label+'</span> <span class="mini" id="ms-sc-'+D.k+'"></span></h3>'+rows+'</div>';
+  var quizOn=false, qi=0;
+  function answeredCount(){return MS.filter(function(m){return R[m.id]!=null;}).length;}
+  function refreshResults(){renderKpis();renderIdx();renderRadar();renderPlan();}
+  function firstUnanswered(){for(var i=0;i<MS.length;i++){if(R[MS[i].id]==null)return i;}return 0;}
+  function renderQuiz(){
+    var box=document.getElementById('msQuiz'); if(!box)return;
+    if(!quizOn){
+      var n=answeredCount(), tot=MS.length;
+      box.innerHTML='<h3 style="margin-top:0">&#128221; Guided assessment</h3>'
+        +'<p class="mini" style="margin-top:0">'+(n?('Answered <b>'+n+' of '+tot+'</b> — her results are shown above &uarr;'):('A quick, gentle '+tot+'-question check. Her results appear above as you answer.'))+'</p>'
+        +'<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:6px"><button class="rotate" id="msStartBtn" style="margin:0">'+(n?'Review / update her answers':'Start the assessment')+'</button>'
+        +(n?'<button class="rotate" id="msResetBtn" style="margin:0;background:#eee;color:#777;box-shadow:none">Clear all</button>':'')+'</div>';
+      document.getElementById('msStartBtn').addEventListener('click',function(){quizOn=true;qi=firstUnanswered();renderQuiz();box.scrollIntoView({behavior:'smooth',block:'center'});});
+      var rb=document.getElementById('msResetBtn'); if(rb)rb.addEventListener('click',function(){if(confirm('Clear all her answers? This cannot be undone.')){R={};save(R);refreshResults();renderQuiz();}});
+      return;
+    }
+    var m=MS[qi], D=dom(m.d), cur=R[m.id];
+    var btns=[2,1,0].map(function(v){
+      var on=(cur===v);var bg=on?(v===2?D.color:(v===1?'#e6a23c':'#bbb')):'#fff';var col=on?'#fff':'#555';
+      return '<button data-v="'+v+'" style="border:1px solid var(--line);background:'+bg+';color:'+col+';padding:12px 14px;border-radius:12px;font:inherit;font-weight:700;cursor:pointer;flex:1;min-width:100px">'+LV[v]+'</button>';
     }).join('');
-    box.querySelectorAll('button[data-id]').forEach(function(b){
-      b.addEventListener('click',function(){
-        var id=this.getAttribute('data-id'), v=+this.getAttribute('data-v');
-        if(R[id]===v){delete R[id];}else{R[id]=v;}
-        save(R); renderChecklist(); renderKpis(); renderIdx(); renderRadar(); renderPlan();
-      });
-    });
-    DOMAINS.forEach(function(D){var el=document.getElementById('ms-sc-'+D.k);if(el){var p=pct(D.k);el.textContent=(p==null?'':p+'%');el.style.color=D.color;}});
+    box.innerHTML='<div style="display:flex;justify-content:space-between;align-items:center;gap:8px"><span class="tag '+(D.tag||'')+'"'+(D.tag?'':' style="background:#fbe0ec;color:#b8557c"')+'>'+D.emoji+' '+D.label+'</span><span class="mini">Question '+(qi+1)+' of '+MS.length+'</span></div>'
+      +'<div style="height:6px;border-radius:99px;background:#eee;margin:8px 0 12px;overflow:hidden"><div style="height:100%;width:'+Math.round(100*(qi+1)/MS.length)+'%;background:'+D.color+';transition:.3s"></div></div>'
+      +'<p style="font-size:1.06rem;font-weight:700;margin:0 0 12px">'+m.t+(m.adv?' <span class="chip">ahead</span>':'')+' <span class="chip">'+m.a+'</span></p>'
+      +'<div style="display:flex;gap:8px;flex-wrap:wrap">'+btns+'</div>'
+      +'<div style="display:flex;justify-content:space-between;margin-top:14px">'
+      +'<button class="rotate" id="msBack" style="margin:0;background:#eee;color:#777;box-shadow:none">&larr; Back</button>'
+      +'<button class="rotate" id="msDone" style="margin:0;background:linear-gradient(135deg,#7db4e6,#8fd3a6)">Done for now</button></div>';
+    box.querySelectorAll('button[data-v]').forEach(function(b){b.addEventListener('click',function(){
+      R[m.id]=+this.getAttribute('data-v'); save(R); refreshResults();
+      if(qi<MS.length-1){qi++;renderQuiz();}else{quizOn=false;renderQuiz();var t=document.getElementById('milestones');if(t)t.scrollIntoView({behavior:'smooth',block:'start'});}
+    });});
+    var bk=document.getElementById('msBack');bk.addEventListener('click',function(){if(qi>0){qi--;renderQuiz();}else{quizOn=false;renderQuiz();}});
+    document.getElementById('msDone').addEventListener('click',function(){quizOn=false;renderQuiz();});
   }
   function renderNotes(){
     var log=[];try{log=JSON.parse(localStorage.getItem('np_ms_notes')||'[]')}catch(e){}
@@ -1598,7 +1607,7 @@ renderToday();renderEssentials();renderNotes();renderBuy();
     document.getElementById('msNotes').value='';
     var m=document.getElementById('msSaved');m.classList.add('show');setTimeout(function(){m.classList.remove('show')},1600);renderNotes();
   });
-  renderKpis();renderIdx();renderRadar();renderChecklist();renderNotes();renderPlan();renderSync();
+  renderKpis();renderIdx();renderRadar();renderQuiz();renderNotes();renderPlan();renderSync();
 })();
 </script>
 </body></html>
