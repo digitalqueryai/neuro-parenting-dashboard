@@ -985,20 +985,21 @@
 
   <div class="card callout"><b>How to read this honestly.</b> These are signposts based on CDC/ASQ milestones, <i>not a test</i>. Children vary enormously and still develop perfectly normally. The <b>Cognitive (IQ-style)</b> and <b>Social-emotional (EQ)</b> indicators show developmental <i>progress</i> &mdash; they are <u>not</u> clinical IQ or EQ scores (no valid IQ test exists under age&nbsp;2). Use it to choose what to play next and to celebrate her, not to grade her. If a domain stays low over time, or she loses a skill she had, check with your health visitor or GP.</div>
 
+  <h2 class="sec">&#128221; Guided assessment</h2>
+  <p class="sub">Tap <b>Start</b> and answer a quick set of questions one at a time. Her results appear <b>below</b> and update as you go. Items marked <span class="chip">ahead</span> are 2&ndash;3 year skills. Saved on this device. <i>Pre-filled from your interview.</i></p>
+  <div id="msQuiz" class="card"></div>
+
   <h2 class="sec">&#128202; Her profile at a glance</h2>
   <p class="sub">Scores come from the assessment below. Domains you haven't rated yet show &ldquo;&mdash;&rdquo;.</p>
   <div class="ms-kpis" id="msKpis" style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px"></div>
 
   <div class="two" style="margin-top:16px">
     <div class="card"><h3>Domain radar</h3><p class="mini" style="margin-top:0">A shape that fills out as she grows across every area.</p><div id="msRadar" style="display:flex;justify-content:center"></div></div>
-    <div class="card"><h3>Headline indices</h3><p class="mini" style="margin-top:0">Friendly composites &mdash; developmental progress, not clinical scores.</p><div class="ms-idx" id="msIdx" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:10px"></div></div>
+    <div class="card"><h3>Headline indices</h3><p class="mini" style="margin-top:0">Friendly composites &mdash; developmental progress, not clinical scores.</p><div class="ms-idx" id="msIdx" style="display:grid;grid-template-columns:1fr;gap:12px;margin-top:10px"></div></div>
   </div>
 
   <div class="card" id="msSupport" style="background:linear-gradient(135deg,#e6f5ec,#ece0fb)"></div>
 
-  <h2 class="sec">&#128221; Guided assessment</h2>
-  <p class="sub">Tap <b>Start</b> and answer a quick set of questions one at a time &mdash; her results above update as you go. No long list to scroll. Items marked <span class="chip">ahead</span> are 2&ndash;3 year skills. Saved on this device. <i>Pre-filled from your interview.</i></p>
-  <div id="msQuiz" class="card"></div>
 
   <div class="card">
     <h3>&#128221; Observations &amp; wins</h3>
@@ -1494,11 +1495,7 @@ renderToday();renderEssentials();renderNotes();renderBuy();
     function badge(label,val,color,sub){var d=(val==null?'—':val+'%');return '<div style="text-align:center;background:#fff;border:1px solid var(--line);border-radius:16px;padding:12px 8px">'
       +'<div style="font-size:1.9rem;font-weight:800;color:'+(val==null?'#bbb':color)+';line-height:1">'+d+'</div>'
       +'<div style="font-weight:700;font-size:.86rem;margin-top:2px">'+label+'</div><div class="mini" style="margin-top:2px">'+sub+'</div></div>';}
-    document.getElementById('msIdx').innerHTML=
-      badge('Overall index',avg(['cog','lang','eq','gross','fine','self']),'#b8557c','rated domains')
-      +badge('Cognitive (IQ-style)',pct('cog'),'#7d57b0','problem-solving')
-      +badge('Emotional (EQ)',pct('eq'),'#b8557c','social-emotional')
-      +badge('Language',pct('lang'),'#a07d1e','her strength');
+    document.getElementById('msIdx').innerHTML=badge('Overall developmental index',avg(['cog','lang','eq','gross','fine','self']),'#b8557c','average across rated domains');
   }
   function renderRadar(){
     var cx=160,cy=145,R0=105,N=DOMAINS.length;
@@ -1568,7 +1565,7 @@ renderToday();renderEssentials();renderNotes();renderBuy();
     if(!quizOn){
       var n=answeredCount(), tot=MS.length;
       box.innerHTML='<h3 style="margin-top:0">&#128221; Guided assessment</h3>'
-        +'<p class="mini" style="margin-top:0">'+(n?('Answered <b>'+n+' of '+tot+'</b> — her results are shown above &uarr;'):('A quick, gentle '+tot+'-question check. Her results appear above as you answer.'))+'</p>'
+        +'<p class="mini" style="margin-top:0">'+(n?('Answered <b>'+n+' of '+tot+'</b> — her results are shown below &darr;'):('A quick, gentle '+tot+'-question check. Her results appear below as you answer.'))+'</p>'
         +'<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:6px"><button class="rotate" id="msStartBtn" style="margin:0">'+(n?'Review / update her answers':'Start the assessment')+'</button>'
         +(n?'<button class="rotate" id="msResetBtn" style="margin:0;background:#eee;color:#777;box-shadow:none">Clear all</button>':'')+'</div>';
       document.getElementById('msStartBtn').addEventListener('click',function(){quizOn=true;qi=firstUnanswered();renderQuiz();box.scrollIntoView({behavior:'smooth',block:'center'});});
