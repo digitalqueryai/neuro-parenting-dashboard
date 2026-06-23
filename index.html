@@ -227,6 +227,10 @@
   .shop-amazon{background:#f39c12}.shop-ebay{background:#3b82f6}.shop-temu{background:#fb6a3c}
   .mmonth{font-family:'Baloo 2',sans-serif;font-weight:800;color:var(--terra);text-transform:uppercase;letter-spacing:.6px;font-size:.82rem;margin-bottom:3px}
   .mmeta{margin:8px 0 2px;display:flex;gap:6px;flex-wrap:wrap}
+  /* Buy List: use the full width instead of one skinny column */
+  #buyGrid .card{display:grid;grid-template-columns:repeat(auto-fill,minmax(255px,1fr));gap:10px 26px;align-items:start}
+  #buyGrid .buyrow{padding:6px 0}
+  @media(max-width:600px){#buyGrid .card{grid-template-columns:1fr;gap:4px}}
 </style>
 </head>
 <body>
@@ -1184,8 +1188,8 @@ function renderToday(){
   var menus=MENUS.slice();
   if(settings.veg==='veg')menus=menus.filter(function(m){return m.veg;});
   var menu=pick(menus,1);
-  var rows=[['Breakfast',menu.b],['Snack',menu.s1],['Lunch (main)',menu.l],['Snack',menu.s2],['Dinner',menu.d]];
-  document.getElementById('todayFood').innerHTML='<tr><th>Meal</th><th>Today</th></tr>'+rows.map(function(r){return '<tr><td>'+r[0]+'</td><td>'+r[1]+'</td></tr>';}).join('');
+  var rows=[['Breakfast',menu.b,'~120 g','~220'],['Snack',menu.s1,'~60 g','~110'],['Lunch (main)',menu.l,'~150 g','~300'],['Snack',menu.s2,'~80 g','~150'],['Dinner',menu.d,'~130 g','~250']];
+  document.getElementById('todayFood').innerHTML='<tr><th>Meal</th><th>Today</th><th>Portion</th><th>kcal</th></tr>'+rows.map(function(r){return '<tr><td>'+r[0]+'</td><td>'+r[1]+'</td><td>'+r[2]+'</td><td>'+r[3]+'</td></tr>';}).join('');
   document.getElementById('foodNote').innerHTML=(settings.veg==='veg'?'<b>Veg-only day.</b> ':'')+'Self-feeding welcome — mess is fine (the lunch bath sorts it). Cut everything small (see Food Guide for choking safety).';
 
   var emph=settings.focus==='balanced'?theme.f:settings.focus;
