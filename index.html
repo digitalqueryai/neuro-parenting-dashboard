@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Neuro-Parenting Dashboard · 18 Months</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><circle cx='17' cy='17' r='9' fill='%23b07a55'/><circle cx='47' cy='17' r='9' fill='%23b07a55'/><circle cx='17' cy='17' r='4.5' fill='%23f2b8cf'/><circle cx='47' cy='17' r='4.5' fill='%23f2b8cf'/><circle cx='32' cy='35' r='22' fill='%23c08a63'/><ellipse cx='32' cy='41' rx='12' ry='9' fill='%23f0d8bb'/><circle cx='24' cy='31' r='3' fill='%235b3b22'/><circle cx='40' cy='31' r='3' fill='%235b3b22'/><ellipse cx='32' cy='37' rx='3.4' ry='2.6' fill='%235b3b22'/><path d='M32 39v3.5M32 42.5c-3 0-4 3-6 2.6M32 42.5c3 0 4 3 6 2.6' stroke='%235b3b22' stroke-width='1.6' fill='none' stroke-linecap='round'/></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#fdfaf5;--card:#ffffff;--ink:#3a2c34;--muted:#6b5a64;
+    --sage:#cf6c91;--sage-dark:#b8557c;--sand:#ffe3c2;--terra:#e07a59;
+    --sky:#bcdcf2;--lilac:#cdb4ec;--sun:#ffd36b;--line:#f3e1ea;
+    --shadow:0 8px 24px rgba(207,108,145,.13);--radius:22px;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:'Baloo 2','Nunito',-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:linear-gradient(135deg,#ffd6d6 0%,#ffe6cc 16%,#fff7c9 33%,#d8f3d8 50%,#d2ecfb 67%,#dcdcfb 83%,#efd9fb 100%) fixed;color:var(--ink);font-weight:500;line-height:1.55;-webkit-font-smoothing:antialiased}
+  h1,h2,h3,h4,.navtab,.todayhero .date,.day h4,.todayhero .theme,.day .theme,.blabel{font-family:'Baloo 2','Fredoka',sans-serif}
+  header.top{position:relative;overflow:hidden;background:linear-gradient(120deg,#ff9e7a 0%,#ef93b5 32%,#b58fe0 64%,#7db4e6 100%);color:#fff;padding:26px 22px 26px;border-radius:0 0 28px 28px;box-shadow:0 8px 22px rgba(150,110,180,.22)}
+  header.top .wrap{max-width:1060px;margin:0 auto}
+  header.top h1{margin:0 0 4px;font-size:1.7rem;letter-spacing:.3px;text-shadow:0 1px 6px rgba(150,70,110,.28)}
+  header.top p{margin:0;opacity:.96;font-size:.98rem;text-shadow:0 1px 4px rgba(150,70,110,.22)}
+  .pillbar{max-width:1060px;margin:0 auto;display:flex;gap:8px;flex-wrap:wrap;padding:14px 22px 0}
+  .navtab{background:rgba(150,80,130,.32);color:#fff;border:none;cursor:pointer;padding:9px 15px;border-radius:999px;font-size:.9rem;font-weight:700;transition:.15s;text-shadow:0 1px 3px rgba(110,55,85,.5)}
+  .navtab:hover{background:rgba(150,80,130,.46)}
+  .navtab.active{background:#fff;color:var(--sage-dark)}
+  main{max-width:1060px;margin:0 auto;padding:22px}
+  .panel{display:none;animation:fade .25s ease}
+  .panel.active{display:block}
+  @keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+  h2.sec{font-size:1.32rem;margin:6px 0 2px;background:linear-gradient(90deg,#c85f86,#9a7ac4);-webkit-background-clip:text;background-clip:text;color:transparent;font-weight:700}
+  .sub{color:var(--muted);margin:0 0 16px;font-size:.95rem;font-weight:600}
+  .card{background:rgba(255,255,255,.74);backdrop-filter:blur(12px) saturate(1.15);-webkit-backdrop-filter:blur(12px) saturate(1.15);border-radius:var(--radius);box-shadow:0 12px 32px rgba(180,85,124,.12),0 2px 6px rgba(180,85,124,.06);padding:20px 22px;margin-bottom:16px;border:1px solid rgba(255,255,255,.72)}
+  .card h3{margin:0 0 8px;font-size:1.05rem}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+  .tag{display:inline-block;font-size:.72rem;font-weight:700;letter-spacing:.4px;text-transform:uppercase;padding:3px 9px;border-radius:999px;margin-bottom:8px}
+  .t-gross{background:#d8f0e2;color:#3f8f6e}
+  .t-fine{background:#ffe2d4;color:#c4623f}
+  .t-nature{background:#d6ebfa;color:#3d7aa6}
+  .t-focus{background:#ece0fb;color:#7d57b0}
+  .t-lang{background:#fff1c9;color:#a07d1e}
+  .mini{font-size:.86rem;color:var(--muted);font-weight:600}
+  ul.clean{margin:8px 0 0;padding-left:18px}
+  ul.clean li{margin:5px 0}
+  .rhythm{list-style:none;margin:0;padding:0}
+  .rhythm li{display:flex;gap:14px;padding:11px 0;border-bottom:1px dashed var(--line)}
+  .rhythm li:last-child{border-bottom:none}
+  .rhythm .time{flex:0 0 92px;font-weight:700;color:var(--sage-dark);font-size:.92rem}
+  .rhythm .act{flex:1}
+  .rhythm .act b{display:block}
+  .check{display:flex;align-items:flex-start;gap:10px;padding:8px 0;cursor:pointer}
+  .check input{margin-top:4px;width:17px;height:17px;accent-color:var(--sage);flex:0 0 auto}
+  .check span{font-size:.95rem}
+  .check.done span{text-decoration:line-through;color:var(--muted)}
+  table.food{width:100%;border-collapse:collapse;font-size:.9rem}
+  table.food th,table.food td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+  table.food th{background:#f0ede4;color:var(--sage-dark);font-size:.8rem;text-transform:uppercase;letter-spacing:.3px}
+  table.food td:first-child{font-weight:700;color:var(--sage-dark);white-space:nowrap}
+  .callout{border-left:4px solid var(--sage);background:#fdeaf2;padding:13px 16px;border-radius:14px;margin:14px 0;font-size:.92rem}
+  .warn{border-left-color:var(--terra);background:#faeee7}
+  button.rotate{background:linear-gradient(135deg,#e98aae,#b07ad8);color:#fff;border:none;padding:10px 18px;border-radius:999px;cursor:pointer;font-weight:700;font-size:.9rem;margin-top:6px;box-shadow:0 6px 16px rgba(176,122,216,.35);transition:.18s}
+  button.rotate:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(176,122,216,.45)}
+  .days{display:grid;grid-template-columns:repeat(auto-fit,minmax(135px,1fr));gap:12px}
+  .day{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px}
+  .day h4{margin:0 0 4px;color:var(--sage-dark);font-size:.95rem}
+  .day .theme{font-size:.78rem;color:var(--terra);font-weight:700;text-transform:uppercase;letter-spacing:.3px}
+  .day ul{margin:8px 0 0;padding-left:16px;font-size:.85rem}
+  .day li{margin:4px 0}
+  footer{max-width:1060px;margin:0 auto;padding:6px 22px 40px;color:var(--muted);font-size:.8rem}
+  .legend{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px}
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  @media(max-width:620px){.two{grid-template-columns:1fr}}
+  .todayhero{background:linear-gradient(135deg,#ffe0ee 0,#f3e3fb 60%,#e6ecfb 100%);border:1px solid var(--line);border-radius:var(--radius);padding:20px 22px;margin-bottom:16px;display:flex;justify-content:space-between;align-items:flex-start;gap:14px;flex-wrap:wrap}
+  .todayhero .date{font-size:1.35rem;font-weight:800;color:var(--sage-dark);line-height:1.15}
+  .todayhero .theme{color:var(--terra);font-weight:700;text-transform:uppercase;letter-spacing:.4px;font-size:.78rem;margin-top:4px}
+  .seg{display:inline-flex;background:#fff;border:1px solid var(--line);border-radius:999px;overflow:hidden}
+  .seg button{border:none;background:none;padding:7px 12px;font-size:.82rem;cursor:pointer;color:var(--muted);font-weight:600}
+  .seg button.on{background:var(--sage);color:#fff}
+  .ctrlrow{display:flex;gap:14px;flex-wrap:wrap;align-items:center;margin-top:6px}
+  .ctrlrow .lab{font-size:.78rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.3px;margin-right:2px}
+  .tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+  .tile{background:rgba(255,255,255,.82);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.8);border-radius:18px;padding:14px;display:flex;gap:12px;align-items:flex-start;box-shadow:0 6px 18px rgba(180,85,124,.09);transition:.18s}
+  .tile:hover{transform:translateY(-3px);box-shadow:0 12px 26px rgba(180,85,124,.16)}
+  .tile>div:last-child{flex:1;min-width:0}
+  .tile .t{font-size:.95rem;margin-top:4px}
+  .tileart{flex:0 0 46px;width:46px;height:46px}
+  .tileart svg{width:100%;height:100%;display:block}
+  .chip{display:inline-block;background:#f0ede4;color:var(--muted);font-size:.7rem;font-weight:700;padding:2px 8px;border-radius:999px;margin-left:6px}
+  textarea.notes{width:100%;border:1px solid var(--line);border-radius:12px;padding:11px;font:inherit;font-size:.92rem;resize:vertical;min-height:70px}
+  .savedmsg{font-size:.78rem;color:var(--sage);opacity:0;transition:.3s}
+  .savedmsg.show{opacity:1}
+  select.tune{border:1px solid var(--line);border-radius:999px;padding:7px 12px;font:inherit;font-size:.82rem;color:var(--ink);background:#fff}
+  /* premium + illustration layer */
+  .wrap,.pillbar{position:relative;z-index:2}
+  .heroart{position:absolute;left:0;bottom:0;width:100%;height:84px;opacity:.97;pointer-events:none;z-index:1}
+  .deco{position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden}
+  .deco svg{position:absolute}
+  @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+  .navtab.active{box-shadow:0 5px 16px rgba(150,70,110,.28)}
+  .pillar{display:flex;flex-direction:column}
+  .pillart{width:56px;height:56px;margin-bottom:8px;filter:drop-shadow(0 4px 8px rgba(180,85,124,.18))}
+  .pillart svg{width:100%;height:100%}
+  .day{background:rgba(255,255,255,.8);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);transition:.18s}
+  .day:hover{transform:translateY(-3px);box-shadow:0 10px 22px rgba(180,85,124,.14)}
+  .seg{background:rgba(255,255,255,.88)}
+  .todayhero{position:relative;overflow:hidden}
+  .todayhero>div{position:relative;z-index:1}
+  .cloudband{position:absolute;left:0;bottom:-2px;width:100%;height:46px;opacity:.7;pointer-events:none;z-index:0}
+  .foodbowl{width:78px;height:78px;display:block;margin:0 auto 8px;filter:drop-shadow(0 5px 10px rgba(224,122,89,.22))}
+  table.food th{background:#fbe6f0}
+  .tabbanner{position:relative;overflow:hidden;border-radius:20px;height:120px;margin-bottom:18px;box-shadow:0 10px 26px rgba(180,85,124,.16);border:1px solid rgba(255,255,255,.6)}
+  .tabbanner svg{position:absolute;inset:0;width:100%;height:100%;display:block}
+  .tabbanner .blabel{position:absolute;left:24px;top:50%;transform:translateY(-50%);z-index:2;color:#fff;font-weight:800;font-size:1.65rem;text-shadow:0 2px 10px rgba(110,55,85,.5);letter-spacing:.3px}
+  .tabbanner .blabel small{display:block;font-size:.85rem;font-weight:600;opacity:.98;margin-top:3px;text-shadow:0 1px 6px rgba(110,55,85,.5)}
+  @media(max-width:560px){.tabbanner{height:104px}.tabbanner .blabel{font-size:1.3rem}}
+  @media(max-width:700px){.heroart{height:62px}header.top{padding-bottom:80px}}
+  /* ---- animations ---- */
+  @keyframes riseIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+  @keyframes popIn{0%{transform:scale(.8);opacity:0}60%{transform:scale(1.06)}100%{transform:scale(1);opacity:1}}
+  @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+  @keyframes wiggle{0%,100%{transform:rotate(0)}25%{transform:rotate(-9deg)}75%{transform:rotate(9deg)}}
+  @keyframes drift{0%{transform:translateX(0)}50%{transform:translateX(22px)}100%{transform:translateX(0)}}
+  @keyframes sunPulse{0%,100%{transform:scale(1);opacity:.9}50%{transform:scale(1.08);opacity:1}}
+  @keyframes labelIn{from{opacity:0;transform:translate(-18px,-50%)}to{opacity:1;transform:translate(0,-50%)}}
+  @keyframes shine{0%{left:-60%}60%,100%{left:130%}}
+  .panel.active .card,.panel.active .tile,.panel.active .tabbanner,.panel.active .day{animation:riseIn .5s ease both}
+  .panel.active .grid>.card:nth-child(2){animation-delay:.06s}
+  .panel.active .grid>.card:nth-child(3){animation-delay:.12s}
+  .panel.active .grid>.card:nth-child(4){animation-delay:.18s}
+  .panel.active .grid>.card:nth-child(5){animation-delay:.24s}
+  .panel.active .tiles .tile:nth-child(2){animation-delay:.08s}
+  .panel.active .tiles .tile:nth-child(3){animation-delay:.16s}
+  .panel.active .tiles .tile:nth-child(4){animation-delay:.24s}
+  .panel.active .days .day:nth-child(2){animation-delay:.05s}
+  .panel.active .days .day:nth-child(3){animation-delay:.1s}
+  .panel.active .days .day:nth-child(4){animation-delay:.15s}
+  .panel.active .days .day:nth-child(5){animation-delay:.2s}
+  .panel.active .days .day:nth-child(6){animation-delay:.25s}
+  .panel.active .days .day:nth-child(7){animation-delay:.3s}
+  .panel.active .blabel{animation:labelIn .55s ease both;animation-delay:.08s}
+  .pillart{animation:bob 4s ease-in-out infinite}
+  .grid>.card:nth-child(2) .pillart{animation-delay:.4s}
+  .grid>.card:nth-child(3) .pillart{animation-delay:.8s}
+  .grid>.card:nth-child(4) .pillart{animation-delay:1.2s}
+  .grid>.card:nth-child(5) .pillart{animation-delay:1.6s}
+  .tileart{animation:bob 3.6s ease-in-out infinite}
+  .tile:hover .tileart{animation:wiggle .5s ease}
+  .foodbowl{animation:bob 4.5s ease-in-out infinite}
+  .hsun{transform-box:fill-box;transform-origin:center;animation:sunPulse 5s ease-in-out infinite}
+  .hclouds{animation:drift 11s ease-in-out infinite}
+  .cloudband{animation:bob 6s ease-in-out infinite}
+  .navtab.active{animation:popIn .4s ease}
+  #todayDate{animation:popIn .5s ease}
+  button.rotate{position:relative;overflow:hidden}
+  button.rotate::after{content:'';position:absolute;top:0;left:-60%;width:40%;height:100%;background:linear-gradient(120deg,transparent,rgba(255,255,255,.55),transparent);transform:skewX(-20deg);animation:shine 4.5s ease-in-out infinite;pointer-events:none}
+  .tabbanner::after{content:'';position:absolute;top:0;left:-60%;width:35%;height:100%;background:linear-gradient(120deg,transparent,rgba(255,255,255,.35),transparent);transform:skewX(-20deg);animation:shine 6.5s ease-in-out infinite;z-index:1;pointer-events:none}
+  @media (prefers-reduced-motion:reduce){*{animation:none!important}}
+  .reslink{color:#b8557c;font-weight:700;text-decoration:none}
+  .reslink:hover{text-decoration:underline}
+  .res .src{display:inline-block;font-size:.66rem;font-weight:800;letter-spacing:.4px;text-transform:uppercase;color:#fff;background:linear-gradient(135deg,#e98aae,#b07ad8);padding:3px 9px;border-radius:999px;margin-bottom:7px}
+  .res .take{font-size:.85rem;color:var(--muted);font-weight:600;margin-top:6px}
+  .resgroup{margin:22px 0 8px;font-size:1.08rem;color:var(--sage-dark)}
+  /* video gallery */
+  .vgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(232px,1fr));gap:16px;margin-bottom:10px}
+  .vcard{display:flex;flex-direction:column;background:rgba(255,255,255,.85);border:1px solid rgba(255,255,255,.8);border-radius:18px;overflow:hidden;box-shadow:0 8px 20px rgba(180,85,124,.1);text-decoration:none;color:inherit;transition:.18s}
+  .vcard:hover{transform:translateY(-4px);box-shadow:0 16px 32px rgba(180,85,124,.2)}
+  .vthumb{position:relative;aspect-ratio:16/9;background:linear-gradient(135deg,#f7a8c8,#b69ae8);overflow:hidden}
+  .vthumb img{width:100%;height:100%;object-fit:cover;display:block}
+  .vplay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
+  .vplay svg{width:52px;height:52px;filter:drop-shadow(0 3px 8px rgba(0,0,0,.35));transition:.18s}
+  .vcard:hover .vplay svg{transform:scale(1.14)}
+  .vbody{padding:11px 14px 14px}
+  .vbody h4{margin:5px 0 4px;font-size:1rem;line-height:1.25}
+  .vtip{font-size:.82rem;color:var(--muted);font-weight:600}
+  .mcard{display:flex;flex-direction:column;padding:0;overflow:hidden}
+  .mbody{padding:14px 16px 16px}
+  .mthumb{display:block}
+  .vwhy{font-size:.73rem;color:var(--sage-dark);font-weight:700;margin-top:6px;opacity:.92}
+  .whyline{font-size:.84rem;font-weight:700;color:var(--sage-dark);margin:6px 0 10px}
+  .actbox{display:flex;gap:12px;align-items:flex-start}
+  .actbox>div{flex:1;min-width:0}
+  .actbox h3{margin:0 0 4px}
+  .acticon{flex:0 0 46px;width:46px;height:46px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.55rem;box-shadow:inset 0 0 0 1px rgba(255,255,255,.7),0 3px 8px rgba(180,85,124,.12)}
+  .ai-gross{background:#d8f0e2}.ai-fine{background:#ffe2d4}.ai-nature{background:#d6ebfa}.ai-focus{background:#ece0fb}.ai-lang{background:#fff1c9}
+  .buyrow .bicon{font-size:1.25rem;flex:0 0 auto;margin-top:0}
+  .buyrow b{font-weight:700}
+  .buyrow small{display:block;color:var(--muted);font-weight:600;font-size:.78rem;margin-top:1px}
+  .buylinks{display:flex;gap:6px;flex-wrap:wrap;margin:3px 0 8px 56px}
+  .buylinks a{font-size:.72rem;font-weight:800;text-decoration:none;padding:3px 11px;border-radius:999px;color:#fff;box-shadow:0 2px 6px rgba(0,0,0,.12);transition:.15s}
+  .buylinks a:hover{transform:translateY(-1px)}
+  .shop-amazon{background:#f39c12}.shop-ebay{background:#3b82f6}.shop-temu{background:#fb6a3c}
+  .mmonth{font-family:'Baloo 2',sans-serif;font-weight:800;color:var(--terra);text-transform:uppercase;letter-spacing:.6px;font-size:.82rem;margin-bottom:3px}
+  .mmeta{margin:8px 0 2px;display:flex;gap:6px;flex-wrap:wrap}
+</style>
+</head>
+<body>
+<div class="deco" aria-hidden="true">
+  <svg style="top:120px;left:3%;width:46px;height:46px;animation:float 7s ease-in-out infinite" viewBox="0 0 40 40"><path d="M20 34S6 25 6 16a7 7 0 0114-2 7 7 0 0114 2c0 9-14 18-14 18z" fill="#f6b9d2" opacity=".5"/></svg>
+  <svg style="top:300px;right:5%;width:34px;height:34px;animation:float 9s ease-in-out infinite" viewBox="0 0 40 40"><path d="M20 4l4 11 12 1-9 8 3 12-10-7-10 7 3-12-9-8 12-1z" fill="#cdb4ec" opacity=".45"/></svg>
+  <svg style="top:540px;left:6%;width:30px;height:30px;animation:float 8s ease-in-out infinite" viewBox="0 0 40 40"><circle cx="20" cy="20" r="8" fill="#bfe0f5" opacity=".5"/></svg>
+  <svg style="bottom:130px;right:8%;width:42px;height:42px;animation:float 10s ease-in-out infinite" viewBox="0 0 40 40"><path d="M20 34S6 25 6 16a7 7 0 0114-2 7 7 0 0114 2c0 9-14 18-14 18z" fill="#ffd1b3" opacity=".45"/></svg>
+  <svg style="top:760px;right:14%;width:26px;height:26px;animation:float 7.5s ease-in-out infinite" viewBox="0 0 40 40"><path d="M20 4l4 11 12 1-9 8 3 12-10-7-10 7 3-12-9-8 12-1z" fill="#9ed3ae" opacity=".5"/></svg>
+  <svg style="top:200px;right:4%;width:96px;height:58px;animation:float 12s ease-in-out infinite;opacity:.4" viewBox="0 0 100 60"><g fill="none" stroke-linecap="round" stroke-width="7"><path d="M12 58 A38 38 0 0 1 88 58" stroke="#ff9aa2"/><path d="M22 58 A28 28 0 0 1 78 58" stroke="#ffe29a"/><path d="M32 58 A18 18 0 0 1 68 58" stroke="#a6d8f0"/></g></svg>
+  <svg style="bottom:240px;left:4%;width:74px;height:48px;animation:float 9s ease-in-out infinite;opacity:.45" viewBox="0 0 80 52"><g fill="#fff"><ellipse cx="40" cy="34" rx="30" ry="15"/><ellipse cx="26" cy="28" rx="16" ry="12"/><ellipse cx="54" cy="28" rx="16" ry="12"/></g><g fill="#cdb4ec"><circle cx="33" cy="33" r="2.5"/><circle cx="47" cy="33" r="2.5"/></g><path d="M35 38 q5 4 10 0" stroke="#cdb4ec" stroke-width="2.5" fill="none" stroke-linecap="round"/></svg>
+  <svg style="top:1100px;left:8%;width:80px;height:50px;animation:float 11s ease-in-out infinite;opacity:.35" viewBox="0 0 100 60"><g fill="none" stroke-linecap="round" stroke-width="7"><path d="M12 58 A38 38 0 0 1 88 58" stroke="#b5e6b0"/><path d="M22 58 A28 28 0 0 1 78 58" stroke="#ffb997"/><path d="M32 58 A18 18 0 0 1 68 58" stroke="#c9b3ec"/></g></svg>
+</div>
+<header class="top">
+  <div class="wrap">
+    <h1>🧸 Neuro-Parenting Dashboard 🌸</h1>
+    <p>A calm, brain-building day for your 18-month-old · Bengali + Western · gentle English · hillside, river &amp; sea</p>
+  </div>
+  <nav class="pillbar" id="nav">
+    <button class="navtab active" data-tab="today">✨ Today</button>
+    <button class="navtab" data-tab="overview">Start Here</button>
+    <button class="navtab" data-tab="rhythm">Daily Rhythm</button>
+    <button class="navtab" data-tab="play">Play Library</button>
+    <button class="navtab" data-tab="food">Food Guide</button>
+    <button class="navtab" data-tab="week">Weekly Planner</button>
+    <button class="navtab" data-tab="tips">Tips &amp; Notes</button>
+    <button class="navtab" data-tab="library">📚 Library</button>
+    <button class="navtab" data-tab="buy">🛒 Buy List</button>
+  </nav>
+</header>
+
+<main>
+
+<!-- TODAY -->
+<section class="panel active" id="today">
+  <div class="todayhero">
+    <svg class="cloudband" viewBox="0 0 600 46" preserveAspectRatio="none" aria-hidden="true"><g fill="#ffffff" opacity=".75"><ellipse cx="70" cy="40" rx="60" ry="20"/><ellipse cx="200" cy="44" rx="80" ry="22"/><ellipse cx="360" cy="42" rx="70" ry="20"/><ellipse cx="520" cy="44" rx="80" ry="22"/></g></svg>
+    <div>
+      <div class="date" id="todayDate">—</div>
+      <div class="theme" id="todayTheme">—</div>
+    </div>
+    <div style="text-align:right">
+      <button class="rotate" onclick="shuffleToday()" style="margin-top:0">🎲 Shuffle today</button>
+      <div class="mini" style="margin-top:6px">Refreshes on its own each morning</div>
+    </div>
+  </div>
+
+  <div class="card" style="background:linear-gradient(135deg,#ece0fb,#ffe0ee)">
+    <div style="display:flex;align-items:center;gap:14px">
+      <span style="font-size:2rem;flex:0 0 auto">🧠</span>
+      <div style="flex:1"><b style="color:#7d57b0">Your AI Companion</b><br><span class="mini">Ask anything, get today's tailored plan, and track her progress.</span></div>
+    </div>
+    <p class="mini" style="margin:10px 0 8px">The AI runs <b>inside the Claude app</b> (a public web page can't run it safely). To open it: launch <b>Claude</b>, then in the left sidebar click <b>AI Companion</b>. Your morning briefing is under <b>Scheduled</b>.</p>
+    <a class="reslink" href="https://claude.ai" target="_blank" rel="noopener noreferrer">Open Claude →</a>
+  </div>
+
+  <div class="card">
+    <h3>Tune today to suit her ☀️</h3>
+    <p class="mini" style="margin-top:0">Change these any time — today's plan re-adapts instantly. Your choices are remembered.</p>
+    <div class="ctrlrow">
+      <span class="lab">Weather</span>
+      <span class="seg" data-set="weather">
+        <button data-v="either">Outdoor OK</button>
+        <button data-v="in">Indoor only</button>
+      </span>
+      <span class="lab">Her energy</span>
+      <span class="seg" data-set="energy">
+        <button data-v="hi">Bursting</button>
+        <button data-v="normal">Normal</button>
+        <button data-v="low">Low / tired</button>
+      </span>
+    </div>
+    <div class="ctrlrow" style="margin-top:10px">
+      <span class="lab">Emphasise</span>
+      <select class="tune" id="focusSel">
+        <option value="balanced">Balanced (a bit of each)</option>
+        <option value="gross">Gross motor / energy</option>
+        <option value="fine">Fine motor / hands</option>
+        <option value="nature">Nature &amp; gardening</option>
+        <option value="focus">Focus &amp; attention</option>
+      </select>
+      <span class="lab">Meals</span>
+      <span class="seg" data-set="veg">
+        <button data-v="mix">Bengali + Western</button>
+        <button data-v="veg">Veg-only day</button>
+      </span>
+    </div>
+  </div>
+
+  <h2 class="sec">🍽️ Today's food plan</h2>
+  <p class="sub" id="foodNote">Self-feeding welcome — mess is fine. Cut everything small (see Food Guide for choking safety).</p>
+  <div class="card">
+    <svg class="foodbowl" viewBox="0 0 80 80" aria-hidden="true"><path d="M10 36h60a30 30 0 01-60 0z" fill="#ffd36b"/><ellipse cx="40" cy="36" rx="30" ry="7" fill="#fff2cf"/><path d="M40 37c6-2 10-6 18-5" stroke="#e07a59" stroke-width="2.4" fill="none" opacity=".5"/><path d="M26 24c0-6 5-6 5-11M40 22c0-6 5-6 5-11M54 24c0-6 5-6 5-11" stroke="#e07a59" stroke-width="2.6" fill="none" stroke-linecap="round"/></svg>
+    <table class="food" id="todayFood"></table>
+    <p class="mini" style="margin-top:10px">🎯 Aim for roughly <b>1000–1200 kcal</b> across the whole day. See the <b>Food Guide</b> tab for grams &amp; calories of every food.</p>
+  </div>
+
+  <h2 class="sec">🧩 Today's play ideas</h2>
+  <p class="sub">Fresh picks across your focus areas, adapted to today's settings. Each needs only 1–5 minutes of her attention — that's perfect.</p>
+  <div class="tiles" id="todayPlay"></div>
+
+  <div class="two" style="margin-top:6px">
+    <div class="card">
+      <span class="tag t-lang">Talk &amp; think of the day</span>
+      <div class="t" id="todayWord" style="font-size:1.05rem;font-weight:700;color:var(--sage-dark)">—</div>
+      <p class="mini" id="todayWordHint" style="margin-top:6px">Say it through the day as you point to it.</p>
+    </div>
+    <div class="card">
+      <span class="tag t-focus">Rhyme &amp; tip of the day</span>
+      <div class="t" id="todayRhyme" style="font-weight:700">—</div>
+      <p class="mini" id="todayTip" style="margin-top:8px">—</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>✅ Daily essentials — tick what happened</h3>
+    <p class="mini" style="margin-top:0">If only these five happen, it's a full day for her brain. Ticks reset for a fresh start each day.</p>
+    <div id="essentials"></div>
+  </div>
+
+  <div class="card">
+    <h3>📝 Update the dashboard — what should it know?</h3>
+    <p class="mini" style="margin-top:0">Jot anything new — a food she loved or refused, a new word, what worked, a worry. Saved on this device so you build a little diary. (To have me rework the plan itself, just tell me in chat.)</p>
+    <textarea class="notes" id="notesBox" placeholder="e.g. Loved the mud kitchen today · refused dal · said 'dog' in English · sleeping better with the lunch bath…"></textarea>
+    <div style="display:flex;align-items:center;gap:12px;margin-top:8px">
+      <button class="rotate" style="margin-top:0" onclick="saveNotes()">Save note</button>
+      <span class="savedmsg" id="savedMsg">Saved ✓</span>
+    </div>
+    <div id="noteLog" style="margin-top:14px"></div>
+  </div>
+</section>
+
+<!-- OVERVIEW -->
+<section class="panel" id="overview">
+  <div class="tabbanner">
+    <svg viewBox="0 0 600 120" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+      <defs><linearGradient id="bnA" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#ffabcb"/><stop offset="1" stop-color="#c7afee"/></linearGradient></defs>
+      <rect width="600" height="120" fill="url(#bnA)"/>
+      <g fill="#fff" opacity=".75"><circle cx="300" cy="30" r="5"/><circle cx="540" cy="34" r="5"/><circle cx="562" cy="76" r="4"/></g>
+      <rect x="372" y="42" width="30" height="30" rx="7" fill="#a9e0bd" opacity=".95"/>
+      <rect x="356" y="66" width="30" height="30" rx="7" fill="#ffe39a" opacity=".95"/>
+      <rect x="392" y="66" width="30" height="30" rx="7" fill="#9ed3f0" opacity=".95"/>
+      <path d="M484 90s-24-14-24-30a12 12 0 0124-4 12 12 0 0124 4c0 16-24 30-24 30z" fill="#fff" opacity=".92"/>
+    </svg>
+    <div class="blabel">Welcome 💛<small>Read this first — the 5 basics</small></div>
+  </div>
+  <p class="sub">The most important thing to know before any activity.</p>
+  <div class="card callout">
+    <b>Your daughter is doing brilliantly — and totally normally.</b><br>
+    At 18 months, an attention span of <b>1–3 minutes per toy is exactly right</b>. Flitting from one thing to the next is not a problem to fix — it is how a healthy toddler brain explores the world. Speaking fluent Bengali at this age shows <b>strong, advanced language development</b>. "Neuro-parenting" here simply means giving her brain the right ingredients: movement, the senses, language, connection and predictable rhythm. Nothing here is a test she can pass or fail.
+  </div>
+  <h3 style="margin-top:22px">The 5 brain-building pillars behind every activity</h3>
+  <div class="grid">
+    <div class="card pillar"><div class="pillart"><svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="18" fill="#ffd36b"/><path d="M6 19a18 18 0 0136 0M6 29a18 18 0 0036 0" stroke="#e07a59" stroke-width="2.6" fill="none"/><path d="M24 6v36" stroke="#e07a59" stroke-width="2.6"/></svg></div><span class="tag t-gross">Move</span><h3>Big movement first</h3><p class="mini">High energy is fuel, not a problem. Climbing, running, dancing and carrying things builds the brain's balance, coordination and self-control systems. A child who has moved a lot can sit calmer afterwards.</p><p class="mini whyline">📚 AAP · The Power of Play</p></div>
+    <div class="card pillar"><div class="pillart"><svg viewBox="0 0 48 48"><path d="M24 7s13 15 13 23a13 13 0 01-26 0c0-8 13-23 13-23z" fill="#9ec6f0"/><circle cx="19" cy="31" r="3.2" fill="#fff" opacity=".85"/></svg></div><span class="tag t-nature">Senses</span><h3>Hands &amp; senses</h3><p class="mini">Water, mud, dough, sand, leaves. Sensory play lays down rich neural connections and is naturally calming — perfect for an energetic little one.</p><p class="mini whyline">📚 AAP · Child Mind Institute</p></div>
+    <div class="card pillar"><div class="pillart"><svg viewBox="0 0 48 48"><rect x="7" y="11" width="34" height="23" rx="9" fill="#ffd1e2"/><path d="M17 33l-2 9 11-9Z" fill="#ffd1e2"/><circle cx="18" cy="22" r="2.6" fill="#c4623f"/><circle cx="24" cy="22" r="2.6" fill="#c4623f"/><circle cx="30" cy="22" r="2.6" fill="#c4623f"/></svg></div><span class="tag t-lang">Talk</span><h3>La
