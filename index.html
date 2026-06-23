@@ -135,14 +135,13 @@
     .ctrlrow .lab{width:100%;margin-bottom:-2px}
     .seg{flex-wrap:wrap}
     select.tune{flex:1;min-width:0}
-    /* wide nutrition tables scroll inside their card instead of breaking the page */
     table.food{min-width:430px}
     .tabbanner .blabel{font-size:1.15rem;left:16px}
     .rhythm .time{flex:0 0 76px;font-size:.84rem}
     .vgrid{grid-template-columns:1fr;gap:12px}
     .vthumb{aspect-ratio:16/10}
-    .mcard,.mthumb img{width:100%}
-    .buylinks{margin-left:46px}
+    .ms-kpis{grid-template-columns:1fr 1fr!important}
+    .ms-idx{grid-template-columns:1fr!important}
   }
   @media(max-width:380px){
     header.top h1{font-size:1.16rem}
@@ -245,11 +244,12 @@
     <p>A calm, brain-building day for your 18-month-old · Bengali + Western · gentle English · hillside, river &amp; sea</p>
   </div>
   <nav class="pillbar" id="nav">
-    <button class="navtab" data-tab="today">✨ Today</button>
+    <button class="navtab active" data-tab="today">✨ Today</button>
+    <button class="navtab" data-tab="milestones">📈 Milestones</button>
     <button class="navtab" data-tab="overview">Start Here</button>
     <button class="navtab" data-tab="rhythm">Daily Rhythm</button>
     <button class="navtab" data-tab="play">Play Library</button>
-    <button class="navtab active" data-tab="food">Food Guide</button>
+    <button class="navtab" data-tab="food">Food Guide</button>
     <button class="navtab" data-tab="week">Weekly Planner</button>
     <button class="navtab" data-tab="tips">Tips &amp; Notes</button>
     <button class="navtab" data-tab="library">📚 Library</button>
@@ -260,7 +260,7 @@
 <main>
 
 <!-- TODAY -->
-<section class="panel" id="today">
+<section class="panel active" id="today">
   <div class="todayhero">
     <svg class="cloudband" viewBox="0 0 600 46" preserveAspectRatio="none" aria-hidden="true"><g fill="#ffffff" opacity=".75"><ellipse cx="70" cy="40" rx="60" ry="20"></ellipse><ellipse cx="200" cy="44" rx="80" ry="22"></ellipse><ellipse cx="360" cy="42" rx="70" ry="20"></ellipse><ellipse cx="520" cy="44" rx="80" ry="22"></ellipse></g></svg>
     <div>
@@ -567,7 +567,7 @@
 </section>
 
 <!-- FOOD -->
-<section class="panel active" id="food">
+<section class="panel" id="food">
   <div class="tabbanner">
     <svg viewBox="0 0 600 120" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
       <defs><lineargradient id="bnD" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#ffcf8c"></stop><stop offset="1" stop-color="#ff9eb6"></stop></lineargradient></defs>
@@ -968,6 +968,48 @@
   <div class="callout"><b>Money-saving tip:</b> charity shops, baby groups and second-hand marketplaces are gold for toddler toys and books. And many "Montessori" activities (posting boxes, scoop &amp; pour, mud kitchen) cost nothing — just repurpose what is already in the kitchen.</div>
 </section>
 
+<!-- MILESTONES -->
+<section class="panel" id="milestones">
+  <div class="tabbanner">
+    <svg viewBox="0 0 600 120" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+      <defs><linearGradient id="bnMS" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#8fd3a6"/><stop offset="1" stop-color="#7db4e6"/></linearGradient></defs>
+      <rect width="600" height="120" fill="url(#bnMS)"/>
+      <g fill="#fff" opacity=".9"><rect x="360" y="78" width="16" height="28" rx="3"/><rect x="384" y="62" width="16" height="44" rx="3"/><rect x="408" y="46" width="16" height="60" rx="3"/><rect x="432" y="30" width="16" height="76" rx="3"/></g>
+      <path d="M352 92l24-18 24 10 28-30" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" opacity=".95"/>
+    </svg>
+    <div class="blabel">Milestones &amp; KPIs<small>Data-driven, gentle, age-appropriate</small></div>
+  </div>
+  <p class="sub">A smart-parenting view of where she's thriving and where a little extra support helps &mdash; tracked across the six domains child-development experts use.</p>
+
+  <div class="card callout"><b>How to read this honestly.</b> These are general signposts based on CDC milestones, <i>not a test</i>. Children vary enormously and still develop perfectly normally. The <b>Cognitive (IQ-style)</b> and <b>Social-emotional (EQ)</b> indicators show developmental <i>progress</i> &mdash; they are <u>not</u> clinical IQ or EQ scores (no valid IQ test exists under age&nbsp;2). Use it to choose what to play next, not to grade her. If a domain stays low over time, or she loses a skill she had, check with your health visitor or GP.</div>
+
+  <h2 class="sec">&#128202; Her development at a glance</h2>
+  <p class="sub">Tick the milestones below and these update live. Each % is how many signposts in that domain she does easily and often.</p>
+  <div class="ms-kpis" id="msKpis" style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px"></div>
+
+  <div class="two" style="margin-top:16px">
+    <div class="card"><h3>Domain radar</h3><p class="mini" style="margin-top:0">A shape that fills out as she grows across every area.</p><div id="msRadar" style="display:flex;justify-content:center"></div></div>
+    <div class="card"><h3>Headline indices</h3><p class="mini" style="margin-top:0">Friendly composites &mdash; developmental progress, not clinical scores.</p><div class="ms-idx" id="msIdx" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:10px"></div></div>
+  </div>
+
+  <div class="card" id="msSupport" style="background:linear-gradient(135deg,#e6f5ec,#ece0fb)"></div>
+
+  <h2 class="sec">&#9989; Milestone checklist</h2>
+  <p class="sub">Tick what she does <b>easily and often</b> (not just once). Leave the rest &mdash; many are for older ages and will come. Saved on this device.</p>
+  <div id="msChecklist"></div>
+
+  <div class="card">
+    <h3>&#128221; Observations &amp; wins</h3>
+    <p class="mini" style="margin-top:0">Log new skills, words or moments &mdash; a little growth diary on this device.</p>
+    <textarea class="notes" id="msNotes" placeholder="e.g. Stacked 4 blocks today &middot; said 'more' in English &middot; comforted her teddy when it 'fell'..."></textarea>
+    <div style="display:flex;align-items:center;gap:12px;margin-top:8px">
+      <button class="rotate" style="margin-top:0" id="msNoteBtn">Save observation</button>
+      <span class="savedmsg" id="msSaved">Saved &#10003;</span>
+    </div>
+    <div id="msNoteLog" style="margin-top:14px"></div>
+  </div>
+</section>
+
 </main>
 
 <footer>
@@ -1344,4 +1386,150 @@ renderToday();renderEssentials();renderNotes();renderBuy();
 </script>
 
 
+<script>
+(function(){
+  var DOMAINS=[
+    {k:'gross',label:'Gross motor',emoji:'\U0001F3C3',color:'#3f8f6e',tag:'t-gross',
+     support:'Big movement first &mdash; obstacle courses, dancing, ball games, climbing. See <b>Play Library &rarr; Gross motor</b>.'},
+    {k:'fine',label:'Fine motor',emoji:'✋',color:'#c4623f',tag:'t-fine',
+     support:'Posting boxes, stacking cups, scooping, dough and crayons. See <b>Play Library &rarr; Fine motor</b>.'},
+    {k:'lang',label:'Language',emoji:'\U0001F5E3️',color:'#a07d1e',tag:'t-lang',
+     support:'Narrate everything, read &amp; sing daily in <b>both</b> languages, and name whatever she points to.'},
+    {k:'cog',label:'Cognitive (IQ-style)',emoji:'\U0001F9E0',color:'#7d57b0',tag:'t-focus',
+     support:'Simple pretend play, inset puzzles, shape sorting and copy-the-chore games build problem-solving.'},
+    {k:'eq',label:'Social-emotional (EQ)',emoji:'\U0001F49E',color:'#b8557c',tag:'',
+     support:'Name her feelings out loud, lots of warm serve-and-return, pretend play, and time near other children.'},
+    {k:'self',label:'Self-help',emoji:'\U0001F37D️',color:'#3d7aa6',tag:'t-nature',
+     support:'Let her self-feed, offer an open cup, and invite her to help dress and tidy up.'}
+  ];
+  var MS=[
+    {d:'gross',a:'15m',t:'Walks on her own / takes steps without holding'},
+    {d:'gross',a:'18m',t:'Walks up steps with one hand held; climbs on/off a low sofa'},
+    {d:'gross',a:'18m',t:'Walks fast or runs (stiff legs are normal)'},
+    {d:'gross',a:'24m',t:'Kicks a ball'},
+    {d:'gross',a:'24m',t:'Walks up a few stairs holding on; jumps with both feet'},
+    {d:'fine',a:'15m',t:'Picks up tiny things with thumb &amp; finger (neat pincer)'},
+    {d:'fine',a:'15m',t:'Stacks 2 blocks or cups'},
+    {d:'fine',a:'18m',t:'Scribbles with a crayon'},
+    {d:'fine',a:'18m',t:'Drinks from an open cup (a few spills are fine)'},
+    {d:'fine',a:'24m',t:'Stacks 4+ blocks; turns book pages'},
+    {d:'lang',a:'15m',t:'Says 1–3 words besides "mama/dada"'},
+    {d:'lang',a:'18m',t:'Says about 8–10+ single words'},
+    {d:'lang',a:'18m',t:'Follows a simple 1-step instruction ("give it to me")'},
+    {d:'lang',a:'18m',t:'Points to show you something or to ask for it'},
+    {d:'lang',a:'24m',t:'Puts 2 words together ("more milk", "want up")'},
+    {d:'cog',a:'15m',t:'Tries to use things the right way (cup, phone, brush)'},
+    {d:'cog',a:'18m',t:'Copies you doing chores (sweeping, wiping)'},
+    {d:'cog',a:'18m',t:'Plays simple pretend (feeds a doll, "talks" on a phone)'},
+    {d:'cog',a:'24m',t:'Finds a hidden toy; does a simple inset puzzle'},
+    {d:'cog',a:'24m',t:'Follows a 2-step instruction'},
+    {d:'eq',a:'15m',t:'Looks at your face to see how to react in a new situation'},
+    {d:'eq',a:'15m',t:'Shows affection — hugs, cuddles, kisses'},
+    {d:'eq',a:'18m',t:'Points to share something interesting with you'},
+    {d:'eq',a:'18m',t:'Shows a range of emotions; may have tantrums (normal!)'},
+    {d:'eq',a:'24m',t:'Notices when others are upset; plays alongside other children'},
+    {d:'self',a:'15m',t:'Feeds herself finger foods'},
+    {d:'self',a:'18m',t:'Tries to use a spoon'},
+    {d:'self',a:'18m',t:'Helps with dressing (pushes arm through a sleeve)'},
+    {d:'self',a:'24m',t:'Takes off easy clothing (shoes, socks)'},
+    {d:'self',a:'24m',t:'Copies tooth-brushing / hand-washing'}
+  ];
+  function load(){try{return JSON.parse(localStorage.getItem('np_ms')||'{}')}catch(e){return {}}}
+  function save(o){try{localStorage.setItem('np_ms',JSON.stringify(o))}catch(e){}}
+  var ticks=load();
+  function pct(k){var a=MS.filter(function(m){return m.d===k});if(!a.length)return 0;var n=a.filter(function(m){return ticks[MS.indexOf(m)]}).length;return Math.round(100*n/a.length);}
+  function dom(k){for(var i=0;i<DOMAINS.length;i++)if(DOMAINS[i].k===k)return DOMAINS[i];}
+
+  function renderKpis(){
+    var el=document.getElementById('msKpis');
+    el.innerHTML=DOMAINS.map(function(D){
+      var p=pct(D.k);
+      return '<div class="card" style="margin:0;padding:14px">'
+        +'<div style="font-size:1.6rem;line-height:1">'+D.emoji+'</div>'
+        +'<div style="font-weight:700;font-size:.92rem;margin:4px 0 2px">'+D.label+'</div>'
+        +'<div style="font-size:1.5rem;font-weight:800;color:'+D.color+'">'+p+'%</div>'
+        +'<div style="height:8px;border-radius:99px;background:#eee;overflow:hidden;margin-top:6px"><div style="height:100%;width:'+p+'%;background:'+D.color+';border-radius:99px;transition:.4s"></div></div>'
+        +'</div>';
+    }).join('');
+  }
+  function renderIdx(){
+    var all=DOMAINS.map(function(D){return pct(D.k)});
+    var overall=Math.round(all.reduce(function(a,b){return a+b},0)/all.length);
+    var cog=pct('cog'), eq=pct('eq');
+    function badge(label,val,color,sub){
+      return '<div style="text-align:center;background:#fff;border:1px solid var(--line);border-radius:16px;padding:12px 8px">'
+        +'<div style="font-size:1.9rem;font-weight:800;color:'+color+';line-height:1">'+val+'%</div>'
+        +'<div style="font-weight:700;font-size:.86rem;margin-top:2px">'+label+'</div>'
+        +'<div class="mini" style="margin-top:2px">'+sub+'</div></div>';
+    }
+    document.getElementById('msIdx').innerHTML=
+      badge('Overall index',overall,'#b8557c','all six domains')
+      +badge('Cognitive (IQ-style)',cog,'#7d57b0','problem-solving')
+      +badge('Emotional (EQ)',eq,'#b8557c','social-emotional')
+      +badge('Language',pct('lang'),'#a07d1e','her known strength');
+  }
+  function renderRadar(){
+    var cx=160,cy=145,R=105,N=DOMAINS.length;
+    function pt(i,frac){var ang=-Math.PI/2+i*2*Math.PI/N;return [cx+R*frac*Math.cos(ang),cy+R*frac*Math.sin(ang)];}
+    var rings='';
+    [0.25,0.5,0.75,1].forEach(function(f){
+      var pts=[];for(var i=0;i<N;i++){var p=pt(i,f);pts.push(p[0].toFixed(1)+','+p[1].toFixed(1));}
+      rings+='<polygon points="'+pts.join(' ')+'" fill="none" stroke="#e9d7e3" stroke-width="1"/>';
+    });
+    var axes='',labels='';
+    for(var i=0;i<N;i++){
+      var e=pt(i,1);axes+='<line x1="'+cx+'" y1="'+cy+'" x2="'+e[0].toFixed(1)+'" y2="'+e[1].toFixed(1)+'" stroke="#e9d7e3" stroke-width="1"/>';
+      var lp=pt(i,1.18);var anchor=Math.abs(lp[0]-cx)<8?'middle':(lp[0]<cx?'end':'start');
+      labels+='<text x="'+lp[0].toFixed(1)+'" y="'+(lp[1]+3).toFixed(1)+'" font-size="10" font-weight="700" fill="'+DOMAINS[i].color+'" text-anchor="'+anchor+'">'+DOMAINS[i].emoji+'</text>';
+    }
+    var dpts=[];for(i=0;i<N;i++){var p=pt(i,Math.max(.02,pct(DOMAINS[i].k)/100));dpts.push(p[0].toFixed(1)+','+p[1].toFixed(1));}
+    var dots='';for(i=0;i<N;i++){var p=pt(i,Math.max(.02,pct(DOMAINS[i].k)/100));dots+='<circle cx="'+p[0].toFixed(1)+'" cy="'+p[1].toFixed(1)+'" r="3" fill="#b8557c"/>';}
+    document.getElementById('msRadar').innerHTML='<svg viewBox="0 0 320 300" width="100%" style="max-width:340px">'+rings+axes
+      +'<polygon points="'+dpts.join(' ')+'" fill="rgba(184,85,124,.28)" stroke="#b8557c" stroke-width="2"/>'+dots+labels+'</svg>';
+  }
+  function renderSupport(){
+    var sorted=DOMAINS.slice().sort(function(a,b){return pct(a.k)-pct(b.k)});
+    var low=sorted[0];
+    document.getElementById('msSupport').innerHTML=
+      '<h3 style="margin-top:0">&#127919; What to support next</h3>'
+      +'<p class="mini" style="margin-top:0">Her lowest area right now is <b style="color:'+low.color+'">'+low.label+' ('+pct(low.k)+'%)</b> &mdash; a gentle place to add a little play. Remember: it just means "not yet", and ages vary widely.</p>'
+      +'<p style="margin:8px 0 0;font-size:.95rem">'+low.emoji+' '+low.support+'</p>';
+  }
+  // checklist
+  var box=document.getElementById('msChecklist');
+  function renderChecklist(){
+    box.innerHTML=DOMAINS.map(function(D){
+      var rows=MS.map(function(m){var idx=MS.indexOf(m);return m.d!==D.k?'':(
+        '<label class="check'+(ticks[idx]?' done':'')+'"><input type="checkbox" data-i="'+idx+'"'+(ticks[idx]?' checked':'')+'>'
+        +'<span>'+m.t+' <span class="chip">'+m.a+'</span></span></label>');}).join('');
+      return '<div class="card"><h3 style="margin-top:0"><span class="tag '+(D.tag||'')+'"'+(D.tag?'':' style="background:#fbe0ec;color:#b8557c"')+'>'+D.emoji+' '+D.label+'</span></h3>'+rows+'</div>';
+    }).join('');
+    box.querySelectorAll('input[type=checkbox]').forEach(function(c){
+      c.addEventListener('change',function(){
+        var i=this.getAttribute('data-i');
+        if(this.checked)ticks[i]=1;else delete ticks[i];
+        save(ticks);this.closest('.check').classList.toggle('done',this.checked);
+        renderKpis();renderIdx();renderRadar();renderSupport();
+      });
+    });
+  }
+  // notes
+  function renderNotes(){
+    var log=[];try{log=JSON.parse(localStorage.getItem('np_ms_notes')||'[]')}catch(e){}
+    document.getElementById('msNoteLog').innerHTML=log.slice().reverse().map(function(n){
+      return '<div class="callout" style="margin:8px 0"><span class="mini" style="color:var(--sage-dark);font-weight:700">'+n.d+'</span><br>'+n.t+'</div>';
+    }).join('');
+  }
+  document.getElementById('msNoteBtn').addEventListener('click',function(){
+    var t=(document.getElementById('msNotes').value||'').trim();if(!t)return;
+    var log=[];try{log=JSON.parse(localStorage.getItem('np_ms_notes')||'[]')}catch(e){}
+    log.push({t:t.replace(/</g,'&lt;'),d:new Date().toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})});
+    try{localStorage.setItem('np_ms_notes',JSON.stringify(log))}catch(e){}
+    document.getElementById('msNotes').value='';
+    var m=document.getElementById('msSaved');m.classList.add('show');setTimeout(function(){m.classList.remove('show')},1600);
+    renderNotes();
+  });
+  renderKpis();renderIdx();renderRadar();renderSupport();renderChecklist();renderNotes();
+})();
+</script>
 </body></html>
